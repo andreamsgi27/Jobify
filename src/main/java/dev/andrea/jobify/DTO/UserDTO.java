@@ -12,12 +12,10 @@ public class UserDTO {
     private Long userId;
     private String username;
     private String password;
-    private String role;
 
     public UserDTO(User user) {
         this.userId=user.getUserId();
         this.username=user.getUsername();
         this.password=user.getPassword();
-        this.role=user.getRole();
     }
 }
