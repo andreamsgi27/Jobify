@@ -17,7 +17,7 @@ import dev.andrea.jobify.model.User;
 import dev.andrea.jobify.service.UserService;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/user")
 public class UserController {
 
     private final UserService userService;
@@ -26,36 +26,33 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping(path = "/admin/register")
+    @PostMapping(path = "/register")
     public ResponseEntity<User> createUser(@RequestBody User user) {
         User createdUser = userService.createUser(user);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
-    @GetMapping(path = "/users")
+    @GetMapping(path = "/getAll")
     public ResponseEntity<List<User>> listUsers() {
         List<User> users = userService.listUsers();
         return ResponseEntity.ok(users);
     }
 
-    @PutMapping("/admin/users/{userId}")
-    public ResponseEntity<User> updateUser(@PathVariable Long userId, @RequestBody User userDetails) {
-        try {
-            User updatedUser = userService.updateUser(userId, userDetails);
-            return ResponseEntity.ok(updatedUser);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(null);
-        }
+    @GetMapping(path = "/get/{userId}")
+    public ResponseEntity<User> getUserById(@PathVariable Long userId) {
+        User user = userService.getUserById(userId);
+        return ResponseEntity.ok(user);
     }
 
-    @DeleteMapping("/admin/users/{userId}")
+    @PutMapping("/update/{userId}")
+    public ResponseEntity<User> updateUser(@PathVariable Long userId, @RequestBody User userDetails) {
+        User updatedUser = userService.updateUser(userId, userDetails);
+            return ResponseEntity.ok(updatedUser);
+    }
+
+    @DeleteMapping("/delete/{userId}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
-        if (userService.getUserById(userId).isPresent()) {
             userService.deleteUser(userId);
             return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
     }
 }
