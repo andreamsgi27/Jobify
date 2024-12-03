@@ -1,7 +1,6 @@
 package dev.andrea.jobify.DTO;
 
-import java.math.BigDecimal;
-
+import dev.andrea.jobify.model.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
