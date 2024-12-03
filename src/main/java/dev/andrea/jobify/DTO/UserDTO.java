@@ -15,7 +15,7 @@ public class UserDTO {
     private String role;
 
     public UserDTO(User user) {
-        this.userId=user.getId();
+        this.userId=user.getUserId();
         this.username=user.getUsername();
         this.password=user.getPassword();
         this.role=user.getRole();

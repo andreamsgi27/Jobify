@@ -26,31 +26,31 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping(path = "/register")
+    @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
         User createdUser = userService.createUser(user);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
-    @GetMapping(path = "/getAll")
+    @GetMapping
     public ResponseEntity<List<User>> listUsers() {
         List<User> users = userService.listUsers();
         return ResponseEntity.ok(users);
     }
 
-    @GetMapping(path = "/get/{userId}")
+    @GetMapping(path = "/{userId}")
     public ResponseEntity<User> getUserById(@PathVariable Long userId) {
         User user = userService.getUserById(userId);
         return ResponseEntity.ok(user);
     }
 
-    @PutMapping("/update/{userId}")
+    @PutMapping("/{userId}")
     public ResponseEntity<User> updateUser(@PathVariable Long userId, @RequestBody User userDetails) {
         User updatedUser = userService.updateUser(userId, userDetails);
             return ResponseEntity.ok(updatedUser);
     }
 
-    @DeleteMapping("/delete/{userId}")
+    @DeleteMapping("/{userId}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
             userService.deleteUser(userId);
             return ResponseEntity.noContent().build();
