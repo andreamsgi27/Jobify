@@ -27,13 +27,12 @@ public class UserService {
     }
 
     public List<User> listUsers() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'listUsers'");
+        return userRepository.findAll();
     }
 
     public User getUserById(Long userId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getUserById'");
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
     }
 
     public User updateUser(Long userId, User userDetails) {
@@ -42,8 +41,10 @@ public class UserService {
     }
 
     public void deleteUser(Long userId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteUser'");
+        if (!userRepository.existsById(userId)) {
+            throw new RuntimeException("User not found with ID: " + userId);
+        }
+        userRepository.deleteById(userId);
     }
 
 
