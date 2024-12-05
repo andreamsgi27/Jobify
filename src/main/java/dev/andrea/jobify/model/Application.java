@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,7 +40,7 @@ public class Application {
     @JoinColumn(name = "type_id", nullable = false)
     private JobType jobType;
 
-    @ManyToOne
+    @OneToMany
     @JoinColumn(name = "phase_id", nullable = false)
     private Phase phase;
 
