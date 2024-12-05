@@ -50,9 +50,9 @@ public class Application {
     private String link;
     private String notes;
 
-    // Método para cambiar la fase y actualizar la fecha
+    /* no esta aqui// Método para cambiar la fase y actualizar la fecha
     public void changePhase(Phase newPhase) {
         this.phase = newPhase;
         this.phaseDate = LocalDate.now();  // Actualiza la fecha a la actual
-    }
+    } */
 }

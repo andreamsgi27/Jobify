@@ -1,14 +1,5 @@
 package dev.andrea.jobify.controller;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import dev.andrea.jobify.DTO.ApplicationDTO;
-import dev.andrea.jobify.model.Application;
-import dev.andrea.jobify.service.ApplicationService;
-
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -16,8 +7,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import dev.andrea.jobify.model.Application;
+import dev.andrea.jobify.service.ApplicationService;
 
 @RestController
 @RequestMapping("/application")
@@ -66,6 +63,7 @@ public class ApplicationController {
         return ResponseEntity.ok(applications);
     }
 
+    /* //cambiar fase de candidatura, no esta aqui
     @PutMapping("/{applicationId}/changePhase/{newPhaseId}")
     public ResponseEntity<ApplicationDTO> changePhase(
             @PathVariable Long applicationId,
@@ -73,7 +71,7 @@ public class ApplicationController {
         Application updatedApplication = applicationService.changeApplicationPhase(applicationId, newPhaseId);
         ApplicationDTO applicationDTO = new ApplicationDTO(updatedApplication);
         return ResponseEntity.ok(applicationDTO);
-    }
+    } */
 
 /*
     //Filtros

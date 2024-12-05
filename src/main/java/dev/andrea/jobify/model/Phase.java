@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "phases")
+@Table(name = "phase")
 public class Phase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

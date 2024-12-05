@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dev.andrea.jobify.model.Application;
-import dev.andrea.jobify.model.Phase;
 import dev.andrea.jobify.repository.ApplicationRepository;
 
 @Service
@@ -52,6 +51,7 @@ public class ApplicationService {
         throw new UnsupportedOperationException("Unimplemented method 'getAppByKeyword'");
     }
 
+    /*no esta aqui
     public Application changeApplicationPhase(Long applicationId, Long newPhaseId) {
         Application application = applicationRepository.findById(applicationId)
                 .orElseThrow(() -> new RuntimeException("Application not found"));
@@ -60,6 +60,6 @@ public class ApplicationService {
         application.changePhase(newPhase);
 
         return applicationRepository.save(application);
-    }
+    } */
     
 }
