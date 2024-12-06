@@ -62,23 +62,4 @@ public class ApplicationController {
         List<Application> applications = applicationService.getAppByKeyword(keyword);
         return ResponseEntity.ok(applications);
     }
-
-    /* //cambiar fase de candidatura, no esta aqui
-    @PutMapping("/{applicationId}/changePhase/{newPhaseId}")
-    public ResponseEntity<ApplicationDTO> changePhase(
-            @PathVariable Long applicationId,
-            @PathVariable Long newPhaseId) {
-        Application updatedApplication = applicationService.changeApplicationPhase(applicationId, newPhaseId);
-        ApplicationDTO applicationDTO = new ApplicationDTO(updatedApplication);
-        return ResponseEntity.ok(applicationDTO);
-    } */
-
-/*
-    //Filtros
-    @GetMapping("/location/{location}")
-    public ResponseEntity<List<Application>> getAppByLocation(@PathVariable String location) {
-        List<Application> applications = applicationService.getAppByLocation();
-        return ResponseEntity.ok(applications);
-    } */
-
 }

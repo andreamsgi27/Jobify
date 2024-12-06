@@ -1,14 +1,11 @@
 package dev.andrea.jobify.model;
 
-import java.time.LocalDate;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,19 +37,7 @@ public class Application {
     @JoinColumn(name = "type_id", nullable = false)
     private JobType jobType;
 
-    @OneToMany
-    @JoinColumn(name = "phase_id", nullable = false)
-    private Phase phase;
-
-    private LocalDate phaseDate;  // Fecha de la última actualización de la fase
-
     private int salary;
     private String link;
     private String notes;
-
-    /* no esta aqui// Método para cambiar la fase y actualizar la fecha
-    public void changePhase(Phase newPhase) {
-        this.phase = newPhase;
-        this.phaseDate = LocalDate.now();  // Actualiza la fecha a la actual
-    } */
 }

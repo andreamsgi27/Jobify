@@ -1,6 +1,5 @@
 package dev.andrea.jobify.DTO;
 
-import java.time.LocalDate;
 import dev.andrea.jobify.model.Application;
 import dev.andrea.jobify.model.JobType;
 import lombok.Getter;
@@ -18,7 +17,6 @@ public class ApplicationDTO {
     private String location;
     private String requirements;
     private JobType jobType;
-    private LocalDate phaseDate;
     private int salary;
     private String link;
     private String notes;
@@ -31,7 +29,6 @@ public class ApplicationDTO {
         this.location = application.getLocation();
         this.requirements = application.getRequirements();
         this.jobType = application.getJobType();
-        this.phaseDate = application.getPhaseDate();
         this.salary = application.getSalary();
         this.link = application.getLink();
         this.notes = application.getNotes();

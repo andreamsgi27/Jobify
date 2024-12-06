@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dev.andrea.jobify.DTO.ApplicationPhaseDTO;
@@ -18,8 +19,11 @@ import dev.andrea.jobify.repository.PhaseRepository;
 @Service
 public class ApplicationPhaseService {
 
+    @Autowired
     private ApplicationPhaseRepository applicationPhaseRepository;
+    @Autowired
     private ApplicationRepository applicationRepository;
+    @Autowired
     private PhaseRepository phaseRepository;
 
     public ApplicationPhaseService(ApplicationPhaseRepository applicationPhaseRepository, ApplicationRepository applicationRepository, PhaseRepository phaseRepository) {
