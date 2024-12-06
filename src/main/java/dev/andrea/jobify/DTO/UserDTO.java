@@ -22,9 +22,9 @@ public class UserDTO {
     private String email;
 
     // Constructor que convierte el User en UserDTO
-    public UserDTO(User user) {
+    public UserDTO (User user){
         this.userId = user.getUserId();
         this.username = user.getUsername();
-        this.email = user.getEmail(); // No incluimos la contraseña
+        this.email = user.getEmail();
     }
 }

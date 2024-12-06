@@ -1,13 +1,3 @@
-CREATE TABLE IF NOT EXISTS job_type (
-    job_type_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS phase (
-    phase_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL
-);
-
 -- Valores fijos de JobType
 INSERT INTO job_type (name) VALUES ('Remote');
 INSERT INTO job_type (name) VALUES ('Hybrid');
