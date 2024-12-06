@@ -29,4 +29,8 @@ public class JobType {
         this.jobTypeId = jobType.getJobTypeId();
         this.name = jobType.getName();
     }
+
+    public JobType(String name) {
+        this.name = name;
+    }
 }

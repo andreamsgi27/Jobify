@@ -21,4 +21,8 @@ public class Phase {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long phaseId;
     private String name;
+
+    public Phase(String name) {
+        this.name = name;
+    }
 }
