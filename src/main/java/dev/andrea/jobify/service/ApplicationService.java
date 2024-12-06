@@ -1,11 +1,10 @@
 package dev.andrea.jobify.service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import dev.andrea.jobify.DTO.ApplicationDTO;
@@ -23,27 +22,24 @@ public class ApplicationService {
     private ApplicationRepository applicationRepository;
 
     @Autowired
-    private PhaseService phaseService;
-
-    @Autowired
     private JobTypeRepository jobTypeRepository;
 
     @Autowired
     private UserRepository userRepository;
 
-    public ApplicationService(ApplicationRepository applicationRepository) {
-        this.applicationRepository = applicationRepository;
-    }
     
     public ApplicationDTO createApp(ApplicationDTO applicationDTO) {
-        User user = userRepository.findById(applicationDTO.getUserId())
-            .orElseThrow(() -> new RuntimeException("User not found with id " + applicationDTO.getUserId()));
-    
+    // Obtener usuario autenticado y validar datos de Application
+        String authenticatedUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByEmail(authenticatedUserEmail)
+            .orElseThrow(() -> new RuntimeException("Authenticated user not found"));
+
         JobType jobType = jobTypeRepository.findById(applicationDTO.getJobTypeId())
-            .orElseThrow(() -> new RuntimeException("JobType not found by id " + applicationDTO.getJobTypeId()));
-    
+            .orElseThrow(() -> new RuntimeException("JobType not found with id " + applicationDTO.getJobTypeId()));
+
+        // Crear la candidatura
         Application application = new Application(
-            applicationDTO.getAppId(),
+            null,
             user,
             applicationDTO.getCompany(),
             applicationDTO.getPosition(),
@@ -54,7 +50,6 @@ public class ApplicationService {
             applicationDTO.getLink(),
             applicationDTO.getNotes()
         );
-    
         Application savedApplication = applicationRepository.save(application);
         return new ApplicationDTO(savedApplication);
     }
@@ -65,8 +60,9 @@ public class ApplicationService {
         Application existingApplication = applicationRepository.findById(applicationId)
             .orElseThrow(() -> new RuntimeException("Application not found with ID: " + applicationId));
     
-        User user = userRepository.findById(applicationDTO.getUserId())
-            .orElseThrow(() -> new RuntimeException("User not found with id " + applicationDTO.getUserId()));
+        String authenticatedUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByEmail(authenticatedUserEmail)
+            .orElseThrow(() -> new RuntimeException("Authenticated user not found"));
     
         JobType jobType = jobTypeRepository.findById(applicationDTO.getJobTypeId())
             .orElseThrow(() -> new RuntimeException("JobType not found by id " + applicationDTO.getJobTypeId()));
@@ -89,43 +85,77 @@ public class ApplicationService {
     
 
     public void deleteApp(Long applicationId) {
+        // Obtener el email del usuario autenticado
+        String authenticatedUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByEmail(authenticatedUserEmail)
+            .orElseThrow(() -> new RuntimeException("Authenticated user not found"));
+    
+        // Verificar que la aplicación exista
         Application existingApplication = applicationRepository.findById(applicationId)
             .orElseThrow(() -> new RuntimeException("Application not found with ID: " + applicationId));
+    
+        // Verificar que el usuario autenticado sea el propietario de la aplicación
+        if (!existingApplication.getUser().getUserId().equals(user.getUserId())) {
+            throw new RuntimeException("Unauthorized: You can only delete your own applications");
+        }
+    
+        // Eliminar la aplicación
         applicationRepository.delete(existingApplication);
     }
 
-    public List<ApplicationDTO> listAppsByUser(Long userId) {
-    List<Application> applications = applicationRepository.findByUserId(userId);
-    List<ApplicationDTO> applicationDTOs = new ArrayList<>();
+    public List<ApplicationDTO> listAppsByUser() {
+        // Obtener el email del usuario autenticado
+        String authenticatedUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByEmail(authenticatedUserEmail)
+            .orElseThrow(() -> new RuntimeException("Authenticated user not found"));
     
-    for (Application application : applications) {
-        // Convertir Application a ApplicationDTO
-        applicationDTOs.add(new ApplicationDTO(application));
+        // Obtener las aplicaciones asociadas al usuario autenticado
+        List<Application> applications = applicationRepository.findByUserId(user.getUserId());
+        List<ApplicationDTO> applicationDTOs = new ArrayList<>();
+        
+        // Convertir las entidades Application a DTOs
+        for (Application application : applications) {
+            applicationDTOs.add(new ApplicationDTO(application));
+        }
+        
+        return applicationDTOs;
     }
+
+
+    public ApplicationDTO getAppById(Long applicationId) {
+        // Obtener el email del usuario autenticado
+        String authenticatedUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByEmail(authenticatedUserEmail)
+            .orElseThrow(() -> new RuntimeException("Authenticated user not found"));
     
-    return applicationDTOs;
-}
-
-
-    public Application getAppById(Long applicationId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAppById'");
-    }
-
-    public List<Application> getAppByKeyword(String keyword) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAppByKeyword'");
-    }
-
-    /*no esta aqui
-    public Application changeApplicationPhase(Long applicationId, Long newPhaseId) {
+        // Buscar la aplicación por su ID
         Application application = applicationRepository.findById(applicationId)
-                .orElseThrow(() -> new RuntimeException("Application not found"));
-
-        Phase newPhase = phaseService.getPhaseById(newPhaseId);
-        application.changePhase(newPhase);
-
-        return applicationRepository.save(application);
-    } */
+            .orElseThrow(() -> new RuntimeException("Application not found with ID: " + applicationId));
     
+        // Verificar que la aplicación pertenece al usuario autenticado
+        if (!application.getUser().getUserId().equals(user.getUserId())) {
+            throw new RuntimeException("Unauthorized: You can only view your own applications");
+        }
+    
+        // Convertir la entidad Application a un DTO y devolverla
+        return new ApplicationDTO(application);
+    }
+
+    public List<ApplicationDTO> getAppByKeyword(String keyword) {
+        // Obtener el email del usuario autenticado
+        String authenticatedUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByEmail(authenticatedUserEmail)
+            .orElseThrow(() -> new RuntimeException("Authenticated user not found"));
+    
+        // Buscar aplicaciones por palabra clave y propiedad del usuario
+        List<Application> applications = applicationRepository.findByKeywordAndUserId(keyword, user.getUserId());
+    
+        // Convertir las aplicaciones encontradas a DTOs
+        List<ApplicationDTO> applicationDTOs = new ArrayList<>();
+        for (Application application : applications) {
+            applicationDTOs.add(new ApplicationDTO(application));
+        }
+    
+        return applicationDTOs;
+    }
 }

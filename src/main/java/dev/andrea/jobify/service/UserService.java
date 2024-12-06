@@ -3,6 +3,7 @@ package dev.andrea.jobify.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,12 @@ public class UserService {
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+    }
+
+    public User getAuthenticatedUser() {
+        String authenticatedUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userRepository.findByEmail(authenticatedUserEmail)
+            .orElseThrow(() -> new RuntimeException("Authenticated user not found"));
     }
 
     public User createUser(User user) {

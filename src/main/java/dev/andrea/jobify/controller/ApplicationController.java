@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.andrea.jobify.DTO.ApplicationDTO;
-import dev.andrea.jobify.model.Application;
 import dev.andrea.jobify.service.ApplicationService;
 
 @RestController
@@ -27,40 +26,39 @@ public class ApplicationController {
         this.applicationService = applicationService;
     }
 
-    @PostMapping (path= "/create")
-    public ResponseEntity<Application> createApplication(@RequestBody ApplicationDTO applicationDTO) {
-        Application createdApp = applicationService.createApp(applicationDTO);
+    @PostMapping(path = "/create")
+    public ResponseEntity<ApplicationDTO> createApp(@RequestBody ApplicationDTO applicationDTO) {
+        ApplicationDTO createdApp = applicationService.createApp(applicationDTO);
         return new ResponseEntity<>(createdApp, HttpStatus.CREATED);
     }
 
     @PutMapping("/{applicationId}")
-    public ResponseEntity<Application> updateApp(@PathVariable Long applicationId, @RequestBody Application application) {
-        Application updatedApp = applicationService.updateApp(applicationId, application);
-            return ResponseEntity.ok(updatedApp);
+    public ResponseEntity<ApplicationDTO> updateApp(@PathVariable Long applicationId, @RequestBody ApplicationDTO applicationDTO) {
+        ApplicationDTO updatedApp = applicationService.updateApp(applicationDTO, applicationId);
+        return ResponseEntity.ok(updatedApp);
     }
 
     @DeleteMapping("/{applicationId}")
     public ResponseEntity<Void> deleteApp(@PathVariable Long applicationId) {
-            applicationService.deleteApp(applicationId);
-            return ResponseEntity.noContent().build();
+        applicationService.deleteApp(applicationId);
+        return ResponseEntity.noContent().build();
     }
-    
+
     @GetMapping
-    public ResponseEntity<List<Application>> listAppsByUser() {
-        List<Application> applications = applicationService.listAppsByUser();
+    public ResponseEntity<List<ApplicationDTO>> listAppsByUser() {
+        List<ApplicationDTO> applications = applicationService.listAppsByUser();
         return ResponseEntity.ok(applications);
     }
 
     @GetMapping(path = "/{applicationId}")
-    public ResponseEntity<Application> getAppById(@PathVariable Long applicationId) {
-        Application application = applicationService.getAppById(applicationId);
+    public ResponseEntity<ApplicationDTO> getAppById(@PathVariable Long applicationId) {
+        ApplicationDTO application = applicationService.getAppById(applicationId);
         return ResponseEntity.ok(application);
     }
 
-    //Cuadro de búsqueda
     @GetMapping("/keyword/{keyword}")
-    public ResponseEntity<List<Application>> getAppByKeyword(@PathVariable String keyword) {
-        List<Application> applications = applicationService.getAppByKeyword(keyword);
+    public ResponseEntity<List<ApplicationDTO>> getAppByKeyword(@PathVariable String keyword) {
+        List<ApplicationDTO> applications = applicationService.getAppByKeyword(keyword);
         return ResponseEntity.ok(applications);
     }
 }

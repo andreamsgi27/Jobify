@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import dev.andrea.jobify.DTO.ApplicationPhaseDTO;
@@ -25,18 +26,17 @@ public class ApplicationPhaseService {
     private ApplicationRepository applicationRepository;
     @Autowired
     private PhaseRepository phaseRepository;
-
-    public ApplicationPhaseService(ApplicationPhaseRepository applicationPhaseRepository, ApplicationRepository applicationRepository, PhaseRepository phaseRepository) {
-        this.applicationPhaseRepository = applicationPhaseRepository;
-        this.applicationRepository = applicationRepository;
-        this.phaseRepository = phaseRepository;
-    }
     
     public void changePhase(Long applicationId, ApplicationPhaseDTO appPhaseDTO, PhaseDTO phaseDTO) {
-        Application application = applicationRepository.findById(applicationId)
-        .orElseThrow(() -> new IllegalArgumentException("Application not found with id: " + applicationId));
+        String authenticatedUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        // Accede al ID de la fase desde el objeto Phase
+        Application application = applicationRepository.findById(applicationId)
+            .orElseThrow(() -> new IllegalArgumentException("Application not found with id: " + applicationId));
+
+        if (!application.getUser().getEmail().equals(authenticatedUserEmail)) {
+            throw new RuntimeException("User not authorized to change phase for this application");
+        }
+
         Long phaseId = phaseDTO.getPhaseId();
         Phase phase = phaseRepository.findById(phaseId)
             .orElseThrow(() -> new IllegalArgumentException("Phase not found with id: " + phaseId));
@@ -44,14 +44,16 @@ public class ApplicationPhaseService {
         ApplicationPhase newPhase = new ApplicationPhase();
         newPhase.setApplication(application);
         newPhase.setPhase(phase);
-        // Si el usuario quiere una fecha pasada o si la envía vacía: (sino se queda con la actual)
+
         if (appPhaseDTO.getDate() != null) {
             newPhase.setDate(appPhaseDTO.getDate());
         } else {
             newPhase.setDate(LocalDate.now());
         }
+
         applicationPhaseRepository.save(newPhase);
     }
+
 
     public ApplicationPhaseDTO getLastPhase(Long applicationId){
         Application application = applicationRepository.findById(applicationId)
