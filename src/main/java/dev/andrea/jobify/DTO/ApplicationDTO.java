@@ -1,7 +1,6 @@
 package dev.andrea.jobify.DTO;
 
 import dev.andrea.jobify.model.Application;
-import dev.andrea.jobify.model.JobType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,11 +15,11 @@ public class ApplicationDTO {
     private String position;
     private String location;
     private String requirements;
-    private JobType jobType;
+    private Long jobTypeId; // Solo el ID del JobType
     private int salary;
     private String link;
     private String notes;
-    
+
     public ApplicationDTO(Application application) {
         this.appId = application.getApplicationId();
         this.userId = application.getUser().getUserId();
@@ -28,10 +27,11 @@ public class ApplicationDTO {
         this.position = application.getPosition();
         this.location = application.getLocation();
         this.requirements = application.getRequirements();
-        this.jobType = application.getJobType();
+        if (application.getJobType() != null) {
+            this.jobTypeId = application.getJobType().getJobTypeId(); // Solo el ID de JobType
+        }
         this.salary = application.getSalary();
         this.link = application.getLink();
         this.notes = application.getNotes();
     }
-    
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import dev.andrea.jobify.DTO.ApplicationDTO;
 import dev.andrea.jobify.model.Application;
 import dev.andrea.jobify.service.ApplicationService;
 
@@ -27,8 +28,8 @@ public class ApplicationController {
     }
 
     @PostMapping (path= "/create")
-    public ResponseEntity<Application> createApplication(@RequestBody Application application) {
-        Application createdApp = applicationService.createApp(application);
+    public ResponseEntity<Application> createApplication(@RequestBody ApplicationDTO applicationDTO) {
+        Application createdApp = applicationService.createApp(applicationDTO);
         return new ResponseEntity<>(createdApp, HttpStatus.CREATED);
     }
 
@@ -45,8 +46,8 @@ public class ApplicationController {
     }
     
     @GetMapping
-    public ResponseEntity<List<Application>> listApps() {
-        List<Application> applications = applicationService.listApps();
+    public ResponseEntity<List<Application>> listAppsByUser() {
+        List<Application> applications = applicationService.listAppsByUser();
         return ResponseEntity.ok(applications);
     }
 
