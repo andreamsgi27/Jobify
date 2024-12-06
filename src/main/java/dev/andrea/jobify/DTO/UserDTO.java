@@ -17,17 +17,14 @@ public class UserDTO {
     @NotNull
     private String username;
 
-    @NotNull
-    private String password;
-
     @Email
     @NotNull
     private String email;
 
+    // Constructor que convierte el User en UserDTO
     public UserDTO(User user) {
         this.userId = user.getUserId();
         this.username = user.getUsername();
-        this.password = user.getPassword();  // Si decides no incluir la contraseña, elimínala de aquí
-        this.email = user.getEmail(); // Agregado el email
+        this.email = user.getEmail(); // No incluimos la contraseña
     }
 }

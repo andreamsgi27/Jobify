@@ -1,0 +1,53 @@
+package dev.andrea.jobify;
+
+import dev.andrea.jobify.service.CustomUserDetailsService;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+
+    private final CustomUserDetailsService customUserDetailsService;
+
+    public SecurityConfig(CustomUserDetailsService customUserDetailsService) {
+        this.customUserDetailsService = customUserDetailsService;
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequest(request ->
+            request.requestMatchers("/auth/register").permitAll()  // Acceso a registrarse para todos
+            .requestMatchers("/user/**").authenticated()      // Todos los demás endpoints de /user requieren autenticación
+            .requestMatchers("/application/**").authenticated()  // Endpoints de aplicación protegidos
+            .requestMatchers("/app/phase/**").authenticated() // Endpoints de fase protegidos
+            .anyRequest().denyAll(); // Niega todo lo demás por defecto
+        )
+        .httpBasic()
+        .csrf(csrf -> csrf.disable());
+        .logout()
+            .logoutUrl("/logout")  // URL donde el usuario realiza el logout
+            .invalidateHttpSession(true)  // Invalidar la sesión del servidor
+            .deleteCookies("JSESSIONID")  // Eliminar cookies de sesión
+            .logoutSuccessUrl("/login?logout")  // Redirigir después de cerrar sesión
+            .permitAll();  // Permitir que todos los usuarios accedan a la URL de logout
+
+        return http.build();
+    }
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return customUserDetailsService;
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+}

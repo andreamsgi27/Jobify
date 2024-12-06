@@ -6,53 +6,76 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import dev.andrea.jobify.model.User;
 import dev.andrea.jobify.repository.UserRepository;
 
 @Service
 public class UserService {
+
     @Autowired
     private UserRepository userRepository;
+    
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
-
+    // Obtener el usuario autenticado
     public User getAuthenticatedUser() {
         String authenticatedUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         return userRepository.findByEmail(authenticatedUserEmail)
             .orElseThrow(() -> new RuntimeException("Authenticated user not found"));
     }
 
+    // Crear un nuevo usuario
+    @Transactional
     public User createUser(User user) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createUser'");
+        // Verificar si el email ya existe
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new RuntimeException("Email already exists");
+        }
+        
+        // Codificar la contraseña antes de guardar el usuario
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
     }
 
+    // Listar todos los usuarios
     public List<User> listUsers() {
         return userRepository.findAll();
     }
 
+    // Obtener un usuario por su ID
     public User getUserById(Long userId) {
         return userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
+            .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
     }
 
+    // Actualizar un usuario
+    @Transactional
     public User updateUser(Long userId, User userDetails) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateUser'");
-    }
+        User existingUser = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
 
-    public void deleteUser(Long userId) {
-        if (!userRepository.existsById(userId)) {
-            throw new RuntimeException("User not found with ID: " + userId);
+        // Si la contraseña fue proporcionada, se actualiza (con codificación)
+        if (userDetails.getPassword() != null && !userDetails.getPassword().isEmpty()) {
+            existingUser.setPassword(passwordEncoder.encode(userDetails.getPassword()));
         }
-        userRepository.deleteById(userId);
+        
+        // Actualizar otros campos como el nombre o el email si es necesario
+        existingUser.setUsername(userDetails.getUsername());
+        existingUser.setEmail(userDetails.getEmail());
+
+        return userRepository.save(existingUser);
     }
 
-
+    // Eliminar un usuario
+    @Transactional
+    public void deleteUser(Long userId) {
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
+        
+        // Eliminar el usuario si existe
+        userRepository.delete(user);
+    }
 }
