@@ -1,7 +1,7 @@
 -- Valores fijos de JobType
-INSERT INTO job_type (typeId, name) VALUES (1, 'Remote');
-INSERT INTO job_type (typeId, name) VALUES (2, 'Hybrid');
-INSERT INTO job_type (typeId, name) VALUES (3, 'On-Site');
+INSERT INTO job_type (jobTypeId, name) VALUES (1, 'Remote');
+INSERT INTO job_type (jobTypeId, name) VALUES (2, 'Hybrid');
+INSERT INTO job_type (jobTypeId, name) VALUES (3, 'On-Site');
 
 -- Valores fijos de Phase
 INSERT INTO phase (phaseId, name) VALUES (1, 'Exploring');
