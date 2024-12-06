@@ -13,10 +13,9 @@ import dev.andrea.jobify.repository.UserRepository;
 
 @Service
 public class UserService {
-
     @Autowired
     private UserRepository userRepository;
-    
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -30,6 +29,14 @@ public class UserService {
     // Crear un nuevo usuario
     @Transactional
     public User createUser(User user) {
+        // Validación de campos vacíos
+        if (user.getUsername() == null || user.getUsername().isEmpty()) {
+            throw new RuntimeException("Username cannot be empty");
+        }
+        if (user.getPassword() == null || user.getPassword().isEmpty()) {
+            throw new RuntimeException("Password cannot be empty");
+        }
+
         // Verificar si el email ya existe
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new RuntimeException("Email already exists");

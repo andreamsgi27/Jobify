@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class ApplicationDTO {
-    private Long appId;
+    private Long applicationId;
     private Long userId;
     private String company;
     private String position;
@@ -21,7 +21,7 @@ public class ApplicationDTO {
     private String notes;
 
     public ApplicationDTO(Application application) {
-        this.appId = application.getApplicationId();
+        this.applicationId = application.getApplicationId();
         this.userId = application.getUser().getUserId();
         this.company = application.getCompany();
         this.position = application.getPosition();

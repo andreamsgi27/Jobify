@@ -2,6 +2,7 @@ package dev.andrea.jobify.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -110,7 +111,7 @@ public class ApplicationService {
             .orElseThrow(() -> new RuntimeException("Authenticated user not found"));
     
         // Obtener las aplicaciones asociadas al usuario autenticado
-        List<Application> applications = applicationRepository.findByUserId(user.getUserId());
+        List<Application> applications = applicationRepository.findByUser_UserId(user.getUserId());
         List<ApplicationDTO> applicationDTOs = new ArrayList<>();
         
         // Convertir las entidades Application a DTOs
@@ -141,21 +142,20 @@ public class ApplicationService {
         return new ApplicationDTO(application);
     }
 
-    public List<ApplicationDTO> getAppByKeyword(String keyword) {
+   /*  public List<ApplicationDTO> getAppByKeyword(String keyword) {
         // Obtener el email del usuario autenticado
         String authenticatedUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByEmail(authenticatedUserEmail)
             .orElseThrow(() -> new RuntimeException("Authenticated user not found"));
-    
-        // Buscar aplicaciones por palabra clave y propiedad del usuario
+
+        // Buscar aplicaciones por palabra clave y userId
         List<Application> applications = applicationRepository.findByKeywordAndUserId(keyword, user.getUserId());
-    
-        // Convertir las aplicaciones encontradas a DTOs
-        List<ApplicationDTO> applicationDTOs = new ArrayList<>();
-        for (Application application : applications) {
-            applicationDTOs.add(new ApplicationDTO(application));
-        }
-    
+
+        // Filtrar las aplicaciones después de obtenerlas
+        List<ApplicationDTO> applicationDTOs = applications.stream()
+            .map(ApplicationDTO::new)  // Convertir cada Application a ApplicationDTO
+            .collect(Collectors.toList());
+
         return applicationDTOs;
-    }
+    } */
 }

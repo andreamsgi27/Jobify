@@ -75,7 +75,7 @@ public class ApplicationPhaseService {
     }
 
     public List<ApplicationPhaseDTO> getAllPhases(Long applicationId){
-        List<ApplicationPhase> phases = applicationPhaseRepository.findByApplicationId(applicationId);
+        List<ApplicationPhase> phases = applicationPhaseRepository.findByApplication_applicationId(applicationId);
 
         // Convertir las entidades ApplicationPhase en DTOs
         List<ApplicationPhaseDTO> phaseDTOs = new ArrayList<>();
@@ -94,7 +94,7 @@ public class ApplicationPhaseService {
     }
 
     public List<ApplicationPhaseDTO> getApplicationsByPhase(Long phaseId){
-        List<ApplicationPhase> phases = applicationPhaseRepository.findByPhaseId(phaseId);
+        List<ApplicationPhase> phases = applicationPhaseRepository.findByPhase_PhaseId(phaseId);
     
         // Convertir ApplicationPhase en DTOs, recorriendo cada atributo de cada objeto devuelto
         List<ApplicationPhaseDTO> phaseDTOs = new ArrayList<>();

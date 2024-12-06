@@ -14,29 +14,28 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final CustomUserDetailsService customUserDetailsService;
-
-    public SecurityConfig(CustomUserDetailsService customUserDetailsService) {
-        this.customUserDetailsService = customUserDetailsService;
-    }
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequest(request ->
-            request.requestMatchers("/auth/register").permitAll()  // Acceso a registrarse para todos
-            .requestMatchers("/user/**").authenticated()      // Todos los demás endpoints de /user requieren autenticación
-            .requestMatchers("/application/**").authenticated()  // Endpoints de aplicación protegidos
-            .requestMatchers("/app/phase/**").authenticated() // Endpoints de fase protegidos
-            .anyRequest().denyAll(); // Niega todo lo demás por defecto
-        )
-        .httpBasic()
-        .csrf(csrf -> csrf.disable());
-        .logout()
-            .logoutUrl("/logout")  // URL donde el usuario realiza el logout
-            .invalidateHttpSession(true)  // Invalidar la sesión del servidor
-            .deleteCookies("JSESSIONID")  // Eliminar cookies de sesión
-            .logoutSuccessUrl("/login?logout")  // Redirigir después de cerrar sesión
-            .permitAll();  // Permitir que todos los usuarios accedan a la URL de logout
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+            .authorizeHttpRequests()  // Cambio de 'authorizeRequests()' a 'authorizeHttpRequests()'
+                .requestMatchers("/auth/register").permitAll()  // Allow registration for everyone
+                .requestMatchers("/user/**").authenticated()    // All /user endpoints require authentication
+                .requestMatchers("/application/**").authenticated()  // Protect application endpoints
+                .requestMatchers("/app/phase/**").authenticated() // Protect phase endpoints
+                .anyRequest().denyAll()  // Deny all other requests by default
+            .and()
+            .httpBasic()
+            .and()
+            .csrf().disable()  // Disable CSRF protection
+            .logout()
+                .logoutUrl("/logout")  // URL for logout
+                .invalidateHttpSession(true)  // Invalidate session on logout
+                .deleteCookies("JSESSIONID")  // Delete session cookies
+                .logoutSuccessUrl("/login?logout")  // Redirect after logout
+                .permitAll();  // Allow everyone to access the logout URL
 
         return http.build();
     }

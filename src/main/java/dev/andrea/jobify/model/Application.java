@@ -34,7 +34,7 @@ public class Application {
     private String requirements;
 
     @ManyToOne
-    @JoinColumn(name = "type_id", nullable = false)
+    @JoinColumn(name = "job_type_id")
     private JobType jobType;
 
     private int salary;

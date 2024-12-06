@@ -1,14 +1,24 @@
+CREATE TABLE IF NOT EXISTS job_type (
+    job_type_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS phase (
+    phase_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
+
 -- Valores fijos de JobType
-INSERT INTO job_type (jobTypeId, name) VALUES (1, 'Remote');
-INSERT INTO job_type (jobTypeId, name) VALUES (2, 'Hybrid');
-INSERT INTO job_type (jobTypeId, name) VALUES (3, 'On-Site');
+INSERT INTO job_type (name) VALUES ('Remote');
+INSERT INTO job_type (name) VALUES ('Hybrid');
+INSERT INTO job_type (name) VALUES ('On-Site');
 
 -- Valores fijos de Phase
-INSERT INTO phase (phaseId, name) VALUES (1, 'Exploring');
-INSERT INTO phase (phaseId, name) VALUES (2, 'Submitted');
-INSERT INTO phase (phaseId, name) VALUES (3, 'Reviewing');
-INSERT INTO phase (phaseId, name) VALUES (4, 'Interview');
-INSERT INTO phase (phaseId, name) VALUES (5, 'Tech interview');
-INSERT INTO phase (phaseId, name) VALUES (6, 'Final interview');
-INSERT INTO phase (phaseId, name) VALUES (7, 'Offer');
-INSERT INTO phase (phaseId, name) VALUES (8, 'Hired');
+INSERT INTO phase (name) VALUES ('Exploring');
+INSERT INTO phase (name) VALUES ('Submitted');
+INSERT INTO phase (name) VALUES ('Reviewing');
+INSERT INTO phase (name) VALUES ('Interview');
+INSERT INTO phase (name) VALUES ('Tech interview');
+INSERT INTO phase (name) VALUES ('Final interview');
+INSERT INTO phase (name) VALUES ('Offer');
+INSERT INTO phase (name) VALUES ('Hired');

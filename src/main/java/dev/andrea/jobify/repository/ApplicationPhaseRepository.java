@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import dev.andrea.jobify.model.ApplicationPhase;
 
 public interface ApplicationPhaseRepository extends JpaRepository<ApplicationPhase, Long> {
-    List<ApplicationPhase> findByApplicationId(Long applicationId);
-    List<ApplicationPhase> findByPhaseId(Long phaseId);
+    List<ApplicationPhase> findByApplication_applicationId(Long applicationId);
+    List<ApplicationPhase> findByPhase_PhaseId(Long phaseId);
 }

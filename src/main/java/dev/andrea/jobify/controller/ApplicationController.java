@@ -56,9 +56,9 @@ public class ApplicationController {
         return ResponseEntity.ok(application);
     }
 
-    @GetMapping("/keyword/{keyword}")
+    /* @GetMapping("/keyword/{keyword}")
     public ResponseEntity<List<ApplicationDTO>> getAppByKeyword(@PathVariable String keyword) {
         List<ApplicationDTO> applications = applicationService.getAppByKeyword(keyword);
         return ResponseEntity.ok(applications);
-    }
+    } */
 }

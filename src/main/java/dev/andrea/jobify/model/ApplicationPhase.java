@@ -28,6 +28,7 @@ public class ApplicationPhase {
     @ManyToOne
     @JoinColumn(name = "phase_id", nullable = false)
     private Phase phase;
+    
     @ManyToOne
     @JoinColumn(name = "application_id", nullable = false)
     private Application application;

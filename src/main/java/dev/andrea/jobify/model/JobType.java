@@ -1,5 +1,6 @@
 package dev.andrea.jobify.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,6 +20,13 @@ import lombok.NoArgsConstructor;
 public class JobType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "job_type_id")
     private Long jobTypeId;
+    
     private String name;
+
+    public JobType(JobType jobType){
+        this.jobTypeId = jobType.getJobTypeId();
+        this.name = jobType.getName();
+    }
 }
