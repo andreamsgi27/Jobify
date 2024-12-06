@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import dev.andrea.jobify.DTO.ApplicationPhaseDTO;
+import dev.andrea.jobify.DTO.PhaseDTO;
 import dev.andrea.jobify.model.Application;
 import dev.andrea.jobify.model.ApplicationPhase;
 import dev.andrea.jobify.model.Phase;
@@ -27,17 +28,19 @@ public class ApplicationPhaseService {
         this.phaseRepository = phaseRepository;
     }
     
-    public void changePhase(Long applicationId, ApplicationPhaseDTO appPhaseDTO){
+    public void changePhase(Long applicationId, ApplicationPhaseDTO appPhaseDTO, PhaseDTO phaseDTO) {
         Application application = applicationRepository.findById(applicationId)
-            .orElseThrow(() -> new IllegalArgumentException("Application not found with id: " + applicationId));
+        .orElseThrow(() -> new IllegalArgumentException("Application not found with id: " + applicationId));
 
-        Phase phase = phaseRepository.findById(appPhaseDTO.getPhase().getPhaseId())
-            .orElseThrow(() -> new IllegalArgumentException("Phase not found with id: " + appPhaseDTO.getPhase().getPhaseId()));
+        // Accede al ID de la fase desde el objeto Phase
+        Long phaseId = phaseDTO.getPhaseId();
+        Phase phase = phaseRepository.findById(phaseId)
+            .orElseThrow(() -> new IllegalArgumentException("Phase not found with id: " + phaseId));
 
         ApplicationPhase newPhase = new ApplicationPhase();
         newPhase.setApplication(application);
         newPhase.setPhase(phase);
-        //Si el usuario quiere una fecha pasada o si la envía vacía: (sino se queda con la actual)
+        // Si el usuario quiere una fecha pasada o si la envía vacía: (sino se queda con la actual)
         if (appPhaseDTO.getDate() != null) {
             newPhase.setDate(appPhaseDTO.getDate());
         } else {
