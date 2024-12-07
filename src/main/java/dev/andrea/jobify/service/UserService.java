@@ -13,6 +13,7 @@ import dev.andrea.jobify.repository.UserRepository;
 
 @Service
 public class UserService {
+
     @Autowired
     private UserRepository userRepository;
 
@@ -29,19 +30,13 @@ public class UserService {
     // Crear un nuevo usuario
     @Transactional
     public User createUser(User user) {
-        // Validación de campos vacíos
-        if (user.getUsername() == null || user.getUsername().isEmpty()) {
-            throw new RuntimeException("Username cannot be empty");
-        }
-        if (user.getPassword() == null || user.getPassword().isEmpty()) {
-            throw new RuntimeException("Password cannot be empty");
-        }
+        validateUser(user);
 
         // Verificar si el email ya existe
         if (userRepository.existsByEmail(user.getEmail())) {
-            throw new RuntimeException("Email already exists");
+            throw new IllegalArgumentException("Email already exists");
         }
-        
+
         // Codificar la contraseña antes de guardar el usuario
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
@@ -55,21 +50,20 @@ public class UserService {
     // Obtener un usuario por su ID
     public User getUserById(Long userId) {
         return userRepository.findById(userId)
-            .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
+            .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + userId));
     }
 
     // Actualizar un usuario
     @Transactional
     public User updateUser(Long userId, User userDetails) {
-        User existingUser = userRepository.findById(userId)
-            .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
+        User existingUser = getUserById(userId);
 
         // Si la contraseña fue proporcionada, se actualiza (con codificación)
         if (userDetails.getPassword() != null && !userDetails.getPassword().isEmpty()) {
             existingUser.setPassword(passwordEncoder.encode(userDetails.getPassword()));
         }
-        
-        // Actualizar otros campos como el nombre o el email si es necesario
+
+        // Actualizar otros campos
         existingUser.setUsername(userDetails.getUsername());
         existingUser.setEmail(userDetails.getEmail());
 
@@ -79,10 +73,17 @@ public class UserService {
     // Eliminar un usuario
     @Transactional
     public void deleteUser(Long userId) {
-        User user = userRepository.findById(userId)
-            .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
-        
-        // Eliminar el usuario si existe
+        User user = getUserById(userId);
         userRepository.delete(user);
+    }
+
+    // Método privado para validar un usuario
+    private void validateUser(User user) {
+        if (user.getUsername() == null || user.getUsername().isEmpty()) {
+            throw new IllegalArgumentException("Username cannot be empty");
+        }
+        if (user.getPassword() == null || user.getPassword().isEmpty()) {
+            throw new IllegalArgumentException("Password cannot be empty");
+        }
     }
 }
