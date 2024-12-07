@@ -1,4 +1,6 @@
-package dev.andrea.jobify.model;
+package dev.andrea.jobify.models;
+
+import java.time.LocalDate;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,27 +19,19 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "application")
-public class Application {
-
+@Table(name = "application_phase")
+public class ApplicationPhase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long applicationId;
+    private Long appPhaseId;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
-    private String company;
-    private String position;
-    private String location;
-    private String requirements;
-
+    @JoinColumn(name = "phase_id", nullable = false)
+    private Phase phase;
+    
     @ManyToOne
-    @JoinColumn(name = "job_type_id")
-    private JobType jobType;
+    @JoinColumn(name = "application_id", nullable = false)
+    private Application application;
 
-    private int salary;
-    private String link;
-    private String notes;
+    private LocalDate date;
 }

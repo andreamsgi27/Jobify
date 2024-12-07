@@ -1,6 +1,6 @@
-package dev.andrea.jobify.DTO;
+package dev.andrea.jobify.DTOs;
 
-import dev.andrea.jobify.model.User;
+import dev.andrea.jobify.models.User;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;

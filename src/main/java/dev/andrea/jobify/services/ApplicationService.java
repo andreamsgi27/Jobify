@@ -1,4 +1,4 @@
-package dev.andrea.jobify.service;
+package dev.andrea.jobify.services;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,13 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import dev.andrea.jobify.DTO.ApplicationDTO;
-import dev.andrea.jobify.model.Application;
-import dev.andrea.jobify.model.JobType;
-import dev.andrea.jobify.model.User;
-import dev.andrea.jobify.repository.ApplicationRepository;
-import dev.andrea.jobify.repository.JobTypeRepository;
-import dev.andrea.jobify.repository.UserRepository;
+import dev.andrea.jobify.DTOs.ApplicationDTO;
+import dev.andrea.jobify.models.Application;
+import dev.andrea.jobify.models.JobType;
+import dev.andrea.jobify.models.User;
+import dev.andrea.jobify.repositories.ApplicationRepository;
+import dev.andrea.jobify.repositories.JobTypeRepository;
+import dev.andrea.jobify.repositories.UserRepository;
 
 @Service
 public class ApplicationService {

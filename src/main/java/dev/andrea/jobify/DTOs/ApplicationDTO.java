@@ -1,6 +1,6 @@
-package dev.andrea.jobify.DTO;
+package dev.andrea.jobify.DTOs;
 
-import dev.andrea.jobify.model.Application;
+import dev.andrea.jobify.models.Application;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

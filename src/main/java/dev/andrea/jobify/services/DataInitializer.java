@@ -1,9 +1,9 @@
-package dev.andrea.jobify.service;
+package dev.andrea.jobify.services;
 
-import dev.andrea.jobify.model.JobType;
-import dev.andrea.jobify.model.Phase;
-import dev.andrea.jobify.repository.JobTypeRepository;
-import dev.andrea.jobify.repository.PhaseRepository;
+import dev.andrea.jobify.models.JobType;
+import dev.andrea.jobify.models.Phase;
+import dev.andrea.jobify.repositories.JobTypeRepository;
+import dev.andrea.jobify.repositories.PhaseRepository;
 import jakarta.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;

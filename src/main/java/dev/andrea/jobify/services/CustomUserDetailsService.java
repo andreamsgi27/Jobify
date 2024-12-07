@@ -1,7 +1,8 @@
-package dev.andrea.jobify.service;
+package dev.andrea.jobify.services;
 
-import dev.andrea.jobify.model.User;
-import dev.andrea.jobify.repository.UserRepository;
+import dev.andrea.jobify.models.User;
+import dev.andrea.jobify.repositories.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

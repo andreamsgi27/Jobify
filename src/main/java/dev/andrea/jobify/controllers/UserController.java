@@ -1,4 +1,4 @@
-package dev.andrea.jobify.controller;
+package dev.andrea.jobify.controllers;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import dev.andrea.jobify.DTO.UserDTO;
-import dev.andrea.jobify.model.User;
-import dev.andrea.jobify.service.UserService;
+import dev.andrea.jobify.DTOs.UserDTO;
+import dev.andrea.jobify.models.User;
+import dev.andrea.jobify.services.UserService;
 
 @RestController
 @RequestMapping("/user")

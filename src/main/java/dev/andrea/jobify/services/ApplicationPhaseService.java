@@ -1,4 +1,4 @@
-package dev.andrea.jobify.service;
+package dev.andrea.jobify.services;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -8,16 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import dev.andrea.jobify.DTO.ApplicationPhaseDTO;
-import dev.andrea.jobify.DTO.PhaseDTO;
-import dev.andrea.jobify.model.Application;
-import dev.andrea.jobify.model.ApplicationPhase;
-import dev.andrea.jobify.model.Phase;
-import dev.andrea.jobify.model.User;
-import dev.andrea.jobify.repository.ApplicationPhaseRepository;
-import dev.andrea.jobify.repository.ApplicationRepository;
-import dev.andrea.jobify.repository.PhaseRepository;
-import dev.andrea.jobify.repository.UserRepository;
+import dev.andrea.jobify.DTOs.ApplicationPhaseDTO;
+import dev.andrea.jobify.DTOs.PhaseDTO;
+import dev.andrea.jobify.models.Application;
+import dev.andrea.jobify.models.ApplicationPhase;
+import dev.andrea.jobify.models.Phase;
+import dev.andrea.jobify.models.User;
+import dev.andrea.jobify.repositories.ApplicationPhaseRepository;
+import dev.andrea.jobify.repositories.ApplicationRepository;
+import dev.andrea.jobify.repositories.PhaseRepository;
+import dev.andrea.jobify.repositories.UserRepository;
 
 @Service
 public class ApplicationPhaseService {

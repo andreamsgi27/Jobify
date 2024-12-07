@@ -1,4 +1,4 @@
-package dev.andrea.jobify.repository;
+package dev.andrea.jobify.repositories;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 /* import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param; */
 
-import dev.andrea.jobify.model.Application;
+import dev.andrea.jobify.models.Application;
 
 public interface ApplicationRepository extends JpaRepository<Application, Long> {
     List<Application> findByUser_UserId(Long userId);

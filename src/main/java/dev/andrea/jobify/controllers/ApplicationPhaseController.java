@@ -1,4 +1,4 @@
-package dev.andrea.jobify.controller;
+package dev.andrea.jobify.controllers;
 
 import java.util.List;
 
@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import dev.andrea.jobify.DTO.ApplicationPhaseDTO;
-import dev.andrea.jobify.DTO.PhaseDTO;
-import dev.andrea.jobify.service.ApplicationPhaseService;
+import dev.andrea.jobify.DTOs.ApplicationPhaseDTO;
+import dev.andrea.jobify.DTOs.PhaseDTO;
+import dev.andrea.jobify.services.ApplicationPhaseService;
 
 //Endpoints para consultar las fases de una candidatura específica junto con la fecha de cambio.
 //Endpoint para registrar un nuevo cambio de fase con la fecha correspondiente.

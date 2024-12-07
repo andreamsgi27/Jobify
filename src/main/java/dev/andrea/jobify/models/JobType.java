@@ -1,4 +1,4 @@
-package dev.andrea.jobify.model;
+package dev.andrea.jobify.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -1,10 +1,10 @@
-package dev.andrea.jobify.service;
+package dev.andrea.jobify.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import dev.andrea.jobify.model.Phase;
-import dev.andrea.jobify.repository.PhaseRepository;
+import dev.andrea.jobify.models.Phase;
+import dev.andrea.jobify.repositories.PhaseRepository;
 
 @Service
 public class PhaseService {

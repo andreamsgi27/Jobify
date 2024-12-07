@@ -1,4 +1,4 @@
-package dev.andrea.jobify.model;
+package dev.andrea.jobify.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

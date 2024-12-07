@@ -1,4 +1,4 @@
-package dev.andrea.jobify.controller;
+package dev.andrea.jobify.controllers;
 
 import java.util.List;
 
@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import dev.andrea.jobify.DTO.ApplicationDTO;
-import dev.andrea.jobify.service.ApplicationService;
+import dev.andrea.jobify.DTOs.ApplicationDTO;
+import dev.andrea.jobify.services.ApplicationService;
 
 @RestController
 @RequestMapping("/application")

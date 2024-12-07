@@ -1,10 +1,10 @@
-package dev.andrea.jobify.repository;
+package dev.andrea.jobify.repositories;
 
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import dev.andrea.jobify.model.User;
+import dev.andrea.jobify.models.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);

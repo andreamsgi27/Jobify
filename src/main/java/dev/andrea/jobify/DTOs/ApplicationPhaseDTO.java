@@ -1,10 +1,10 @@
-package dev.andrea.jobify.DTO;
+package dev.andrea.jobify.DTOs;
 
 import java.time.LocalDate;
 
-import dev.andrea.jobify.model.Application;
-import dev.andrea.jobify.model.ApplicationPhase;
-import dev.andrea.jobify.model.Phase;
+import dev.andrea.jobify.models.Application;
+import dev.andrea.jobify.models.ApplicationPhase;
+import dev.andrea.jobify.models.Phase;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

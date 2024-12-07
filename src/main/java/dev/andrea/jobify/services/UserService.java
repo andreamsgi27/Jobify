@@ -1,4 +1,4 @@
-package dev.andrea.jobify.service;
+package dev.andrea.jobify.services;
 
 import java.util.List;
 
@@ -8,8 +8,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import dev.andrea.jobify.model.User;
-import dev.andrea.jobify.repository.UserRepository;
+import dev.andrea.jobify.models.User;
+import dev.andrea.jobify.repositories.UserRepository;
 
 @Service
 public class UserService {

@@ -1,4 +1,4 @@
-package dev.andrea.jobify.DTO;
+package dev.andrea.jobify.DTOs;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
