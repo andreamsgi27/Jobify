@@ -63,7 +63,11 @@ public class ApplicationService {
         String authenticatedUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByEmail(authenticatedUserEmail)
             .orElseThrow(() -> new RuntimeException("Authenticated user not found"));
-    
+        
+            if (!existingApplication.getUser().getUserId().equals(user.getUserId())) {
+                throw new RuntimeException("Unauthorized: You can only update your own applications");
+            }
+        
         JobType jobType = jobTypeRepository.findById(applicationDTO.getJobTypeId())
             .orElseThrow(() -> new RuntimeException("JobType not found by id " + applicationDTO.getJobTypeId()));
     
@@ -98,7 +102,6 @@ public class ApplicationService {
         if (!existingApplication.getUser().getUserId().equals(user.getUserId())) {
             throw new RuntimeException("Unauthorized: You can only delete your own applications");
         }
-    
         // Eliminar la aplicación
         applicationRepository.delete(existingApplication);
     }
@@ -108,16 +111,16 @@ public class ApplicationService {
         String authenticatedUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByEmail(authenticatedUserEmail)
             .orElseThrow(() -> new RuntimeException("Authenticated user not found"));
-    
+
         // Obtener las aplicaciones asociadas al usuario autenticado
         List<Application> applications = applicationRepository.findByUser_UserId(user.getUserId());
         List<ApplicationDTO> applicationDTOs = new ArrayList<>();
-        
+
         // Convertir las entidades Application a DTOs
         for (Application application : applications) {
             applicationDTOs.add(new ApplicationDTO(application));
         }
-        
+
         return applicationDTOs;
     }
 
@@ -127,16 +130,16 @@ public class ApplicationService {
         String authenticatedUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByEmail(authenticatedUserEmail)
             .orElseThrow(() -> new RuntimeException("Authenticated user not found"));
-    
+
         // Buscar la aplicación por su ID
         Application application = applicationRepository.findById(applicationId)
             .orElseThrow(() -> new RuntimeException("Application not found with ID: " + applicationId));
-    
+
         // Verificar que la aplicación pertenece al usuario autenticado
         if (!application.getUser().getUserId().equals(user.getUserId())) {
             throw new RuntimeException("Unauthorized: You can only view your own applications");
         }
-    
+
         // Convertir la entidad Application a un DTO y devolverla
         return new ApplicationDTO(application);
     }

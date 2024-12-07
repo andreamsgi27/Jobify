@@ -13,9 +13,11 @@ import dev.andrea.jobify.DTO.PhaseDTO;
 import dev.andrea.jobify.model.Application;
 import dev.andrea.jobify.model.ApplicationPhase;
 import dev.andrea.jobify.model.Phase;
+import dev.andrea.jobify.model.User;
 import dev.andrea.jobify.repository.ApplicationPhaseRepository;
 import dev.andrea.jobify.repository.ApplicationRepository;
 import dev.andrea.jobify.repository.PhaseRepository;
+import dev.andrea.jobify.repository.UserRepository;
 
 @Service
 public class ApplicationPhaseService {
@@ -26,15 +28,21 @@ public class ApplicationPhaseService {
     private ApplicationRepository applicationRepository;
     @Autowired
     private PhaseRepository phaseRepository;
+    @Autowired
+    private UserRepository userRepository; // Repositorio para obtener el usuario autenticado
     
     public void changePhase(Long applicationId, ApplicationPhaseDTO appPhaseDTO, PhaseDTO phaseDTO) {
+        // Obtener el usuario autenticado
         String authenticatedUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByEmail(authenticatedUserEmail)
+            .orElseThrow(() -> new RuntimeException("User not found"));
 
         Application application = applicationRepository.findById(applicationId)
             .orElseThrow(() -> new IllegalArgumentException("Application not found with id: " + applicationId));
 
-        if (!application.getUser().getEmail().equals(authenticatedUserEmail)) {
-            throw new RuntimeException("User not authorized to change phase for this application");
+        // Verificar que el usuario autenticado es el propietario de la aplicación
+        if (!application.getUser().getUserId().equals(user.getUserId())) {
+            throw new RuntimeException("Unauthorized: You can only modify your own applications");
         }
 
         Long phaseId = phaseDTO.getPhaseId();
@@ -54,10 +62,20 @@ public class ApplicationPhaseService {
         applicationPhaseRepository.save(newPhase);
     }
 
-
     public ApplicationPhaseDTO getLastPhase(Long applicationId){
+        // Obtener el usuario autenticado
+        String authenticatedUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByEmail(authenticatedUserEmail)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+
         Application application = applicationRepository.findById(applicationId)
         .orElseThrow(() -> new IllegalArgumentException("Application not found with id: " + applicationId));
+
+        // Verificar que el usuario autenticado es el propietario de la aplicación
+        if (!application.getUser().getUserId().equals(user.getUserId())) {
+            throw new RuntimeException("Unauthorized: You can only view your own applications");
+        }
+
         List<ApplicationPhaseDTO> phases = getAllPhases(applicationId);
         if(phases.isEmpty()){
             return null;
@@ -75,6 +93,19 @@ public class ApplicationPhaseService {
     }
 
     public List<ApplicationPhaseDTO> getAllPhases(Long applicationId){
+        // Obtener el usuario autenticado
+        String authenticatedUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByEmail(authenticatedUserEmail)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Application application = applicationRepository.findById(applicationId)
+        .orElseThrow(() -> new IllegalArgumentException("Application not found with id: " + applicationId));
+
+        // Verificar que el usuario autenticado es el propietario de la aplicación
+        if (!application.getUser().getUserId().equals(user.getUserId())) {
+            throw new RuntimeException("Unauthorized: You can only view your own applications");
+        }
+
         List<ApplicationPhase> phases = applicationPhaseRepository.findByApplication_applicationId(applicationId);
 
         // Convertir las entidades ApplicationPhase en DTOs
