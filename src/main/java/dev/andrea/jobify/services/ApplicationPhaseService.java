@@ -33,9 +33,16 @@ public class ApplicationPhaseService {
     
     public void changePhase(Long applicationId, ApplicationPhaseDTO appPhaseDTO, PhaseDTO phaseDTO) {
         // Obtener el usuario autenticado
-        String authenticatedUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByEmail(authenticatedUserEmail)
-            .orElseThrow(() -> new RuntimeException("User not found"));
+        String authenticatedUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        // Verificar si el usuario existe por su username
+        if (!userRepository.existsByUsername(authenticatedUsername)) {
+            throw new RuntimeException("Authenticated user not found");
+        }
+
+        // Obtener el usuario autenticado
+        User user = userRepository.findByUsername(authenticatedUsername)
+            .orElseThrow(() -> new RuntimeException("Authenticated user details not found"));
 
         Application application = applicationRepository.findById(applicationId)
             .orElseThrow(() -> new IllegalArgumentException("Application not found with id: " + applicationId));
@@ -64,9 +71,16 @@ public class ApplicationPhaseService {
 
     public ApplicationPhaseDTO getLastPhase(Long applicationId){
         // Obtener el usuario autenticado
-        String authenticatedUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByEmail(authenticatedUserEmail)
-            .orElseThrow(() -> new RuntimeException("User not found"));
+        String authenticatedUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        // Verificar si el usuario existe por su username
+        if (!userRepository.existsByUsername(authenticatedUsername)) {
+            throw new RuntimeException("Authenticated user not found");
+        }
+
+        // Obtener el usuario autenticado
+        User user = userRepository.findByUsername(authenticatedUsername)
+            .orElseThrow(() -> new RuntimeException("Authenticated user details not found"));
 
         Application application = applicationRepository.findById(applicationId)
         .orElseThrow(() -> new IllegalArgumentException("Application not found with id: " + applicationId));
@@ -94,9 +108,16 @@ public class ApplicationPhaseService {
 
     public List<ApplicationPhaseDTO> getAllPhases(Long applicationId){
         // Obtener el usuario autenticado
-        String authenticatedUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByEmail(authenticatedUserEmail)
-            .orElseThrow(() -> new RuntimeException("User not found"));
+        String authenticatedUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        // Verificar si el usuario existe por su username
+        if (!userRepository.existsByUsername(authenticatedUsername)) {
+            throw new RuntimeException("Authenticated user not found");
+        }
+
+        // Obtener el usuario autenticado
+        User user = userRepository.findByUsername(authenticatedUsername)
+            .orElseThrow(() -> new RuntimeException("Authenticated user details not found"));
 
         Application application = applicationRepository.findById(applicationId)
         .orElseThrow(() -> new IllegalArgumentException("Application not found with id: " + applicationId));

@@ -30,9 +30,16 @@ public class ApplicationService {
     
     public ApplicationDTO createApp(ApplicationDTO applicationDTO) {
     // Obtener usuario autenticado y validar datos de Application
-        String authenticatedUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByEmail(authenticatedUserEmail)
-            .orElseThrow(() -> new RuntimeException("Authenticated user not found"));
+        String authenticatedUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        // Verificar si el usuario existe por su username
+        if (!userRepository.existsByUsername(authenticatedUsername)) {
+            throw new RuntimeException("Authenticated user not found");
+        }
+
+        // Obtener el usuario autenticado
+        User user = userRepository.findByUsername(authenticatedUsername)
+            .orElseThrow(() -> new RuntimeException("Authenticated user details not found"));
 
         JobType jobType = jobTypeRepository.findById(applicationDTO.getJobTypeId())
             .orElseThrow(() -> new RuntimeException("JobType not found with id " + applicationDTO.getJobTypeId()));
@@ -60,10 +67,17 @@ public class ApplicationService {
         Application existingApplication = applicationRepository.findById(applicationId)
             .orElseThrow(() -> new RuntimeException("Application not found with ID: " + applicationId));
     
-        String authenticatedUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByEmail(authenticatedUserEmail)
-            .orElseThrow(() -> new RuntimeException("Authenticated user not found"));
-        
+            String authenticatedUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+
+            // Verificar si el usuario existe por su username
+            if (!userRepository.existsByUsername(authenticatedUsername)) {
+                throw new RuntimeException("Authenticated user not found");
+            }
+    
+            // Obtener el usuario autenticado
+            User user = userRepository.findByUsername(authenticatedUsername)
+                .orElseThrow(() -> new RuntimeException("Authenticated user details not found"));
+    
             if (!existingApplication.getUser().getUserId().equals(user.getUserId())) {
                 throw new RuntimeException("Unauthorized: You can only update your own applications");
             }
@@ -89,11 +103,17 @@ public class ApplicationService {
     
 
     public void deleteApp(Long applicationId) {
-        // Obtener el email del usuario autenticado
-        String authenticatedUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByEmail(authenticatedUserEmail)
-            .orElseThrow(() -> new RuntimeException("Authenticated user not found"));
-    
+        String authenticatedUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        // Verificar si el usuario existe por su username
+        if (!userRepository.existsByUsername(authenticatedUsername)) {
+            throw new RuntimeException("Authenticated user not found");
+        }
+
+        // Obtener el usuario autenticado
+        User user = userRepository.findByUsername(authenticatedUsername)
+            .orElseThrow(() -> new RuntimeException("Authenticated user details not found"));
+
         // Verificar que la aplicación exista
         Application existingApplication = applicationRepository.findById(applicationId)
             .orElseThrow(() -> new RuntimeException("Application not found with ID: " + applicationId));
@@ -108,9 +128,16 @@ public class ApplicationService {
 
     public List<ApplicationDTO> listAppsByUser() {
         // Obtener el email del usuario autenticado
-        String authenticatedUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByEmail(authenticatedUserEmail)
-            .orElseThrow(() -> new RuntimeException("Authenticated user not found"));
+        String authenticatedUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        // Verificar si el usuario existe por su username
+        if (!userRepository.existsByUsername(authenticatedUsername)) {
+            throw new RuntimeException("Authenticated user not found");
+        }
+
+        // Obtener el usuario autenticado
+        User user = userRepository.findByUsername(authenticatedUsername)
+            .orElseThrow(() -> new RuntimeException("Authenticated user details not found"));
 
         // Obtener las aplicaciones asociadas al usuario autenticado
         List<Application> applications = applicationRepository.findByUser_UserId(user.getUserId());
@@ -126,10 +153,16 @@ public class ApplicationService {
 
 
     public ApplicationDTO getAppById(Long applicationId) {
-        // Obtener el email del usuario autenticado
-        String authenticatedUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByEmail(authenticatedUserEmail)
-            .orElseThrow(() -> new RuntimeException("Authenticated user not found"));
+        String authenticatedUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        // Verificar si el usuario existe por su username
+        if (!userRepository.existsByUsername(authenticatedUsername)) {
+            throw new RuntimeException("Authenticated user not found");
+        }
+
+        // Obtener el usuario autenticado
+        User user = userRepository.findByUsername(authenticatedUsername)
+            .orElseThrow(() -> new RuntimeException("Authenticated user details not found"));
 
         // Buscar la aplicación por su ID
         Application application = applicationRepository.findById(applicationId)

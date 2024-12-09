@@ -22,8 +22,8 @@ public class UserService {
 
     // Obtener el usuario autenticado
     public User getAuthenticatedUser() {
-        String authenticatedUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
-        return userRepository.findByEmail(authenticatedUserEmail)
+        String authenticatedUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userRepository.findByUsername(authenticatedUsername)
             .orElseThrow(() -> new RuntimeException("Authenticated user not found"));
     }
 
@@ -33,7 +33,7 @@ public class UserService {
         validateUser(user);
 
         // Verificar si el email ya existe
-        if (userRepository.existsByEmail(user.getEmail())) {
+        if (userRepository.existsByUsername(user.getUsername())) {
             throw new IllegalArgumentException("Email already exists");
         }
 
