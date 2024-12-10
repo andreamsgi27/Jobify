@@ -62,7 +62,7 @@ public class UserControllerTest {
         ResponseEntity<UserDTO> response = userController.getUserById(1L);
 
         assertEquals(OK, response.getStatusCode());
-        assertEquals(userDTO, response.getBody());
+        assertEquals(user, response.getBody());
     }
 
     @Test

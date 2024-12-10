@@ -1,12 +1,14 @@
 package dev.andrea.jobify.DTOs;
 
 import dev.andrea.jobify.models.Application;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Data
 @NoArgsConstructor
 public class ApplicationDTO {
     private Long applicationId;

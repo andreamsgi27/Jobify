@@ -6,12 +6,14 @@ import dev.andrea.jobify.models.Application;
 import dev.andrea.jobify.models.ApplicationPhase;
 import dev.andrea.jobify.models.Phase;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ApplicationPhaseDTO {
