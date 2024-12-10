@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.andrea.jobify.DTOs.ApplicationPhaseDTO;
-import dev.andrea.jobify.DTOs.PhaseDTO;
 import dev.andrea.jobify.services.ApplicationPhaseService;
 
 //Endpoints para consultar las fases de una candidatura específica junto con la fecha de cambio.
@@ -29,8 +28,8 @@ public class ApplicationPhaseController {
 
     //Cambia la fase de la candidatura
     @PostMapping("/{applicationId}/change-phase")
-    public ResponseEntity<String> changePhase(@PathVariable Long applicationId, @RequestBody ApplicationPhaseDTO appPhaseDTO, @RequestBody PhaseDTO phaseDTO) {
-        applicationPhaseService.changePhase(applicationId, appPhaseDTO, phaseDTO); // Envia DTO al servicio
+    public ResponseEntity<String> changePhase(@PathVariable Long applicationId, @RequestBody ApplicationPhaseDTO appPhaseDTO) {
+        applicationPhaseService.changePhase(applicationId, appPhaseDTO); // Envia DTO al servicio
         return ResponseEntity.ok("Phase updated successfully");
     }
 

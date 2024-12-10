@@ -2,6 +2,7 @@ package dev.andrea.jobify.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -177,11 +178,16 @@ public class ApplicationService {
         return new ApplicationDTO(application);
     }
 
-   /*  public List<ApplicationDTO> getAppByKeyword(String keyword) {
-        // Obtener el email del usuario autenticado
-        String authenticatedUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByEmail(authenticatedUserEmail)
-            .orElseThrow(() -> new RuntimeException("Authenticated user not found"));
+    public List<ApplicationDTO> getAppByKeyword(String keyword) {
+        String authenticatedUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        // Verificar si el usuario existe por su username
+        if (!userRepository.existsByUsername(authenticatedUsername)) {
+            throw new RuntimeException("Authenticated user not found");
+        }
+        // Obtener el usuario autenticado
+        User user = userRepository.findByUsername(authenticatedUsername)
+            .orElseThrow(() -> new RuntimeException("Authenticated user details not found"));
 
         // Buscar aplicaciones por palabra clave y userId
         List<Application> applications = applicationRepository.findByKeywordAndUserId(keyword, user.getUserId());
@@ -192,5 +198,41 @@ public class ApplicationService {
             .collect(Collectors.toList());
 
         return applicationDTOs;
-    } */
+    }
+
+    public int countApplicationsByUserId(Long userId) {
+        return applicationRepository.countApplicationsByUserId(userId);
+    }
+
+    public int getUniqueCompaniesCount() {
+        String authenticatedUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        // Verificar si el usuario existe por su username
+        if (!userRepository.existsByUsername(authenticatedUsername)) {
+            throw new RuntimeException("Authenticated user not found");
+        }
+        // Obtener el usuario autenticado
+        User user = userRepository.findByUsername(authenticatedUsername)
+            .orElseThrow(() -> new RuntimeException("Authenticated user details not found"));
+        
+            List<String> companies = applicationRepository.findDistinctCompaniesByUserId(user.getUserId());
+        return companies.size();
+    }
+
+    public int getTotalApplicationsCount() {
+        String authenticatedUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+    
+        // Verificar si el usuario existe por su username
+        if (!userRepository.existsByUsername(authenticatedUsername)) {
+            throw new RuntimeException("Authenticated user not found");
+        }
+    
+        // Obtener el usuario autenticado
+        User user = userRepository.findByUsername(authenticatedUsername)
+            .orElseThrow(() -> new RuntimeException("Authenticated user details not found"));
+        
+        // Contar el número total de candidaturas del usuario
+        int totalCount = applicationRepository.countByUser_UserId(user.getUserId());
+        return (int) totalCount;  // Convertir el valor long a int
+    }
 }

@@ -56,9 +56,27 @@ public class ApplicationController {
         return ResponseEntity.ok(application);
     }
 
-    /* @GetMapping("/keyword/{keyword}")
+    @GetMapping("/keyword/{keyword}")
     public ResponseEntity<List<ApplicationDTO>> getAppByKeyword(@PathVariable String keyword) {
         List<ApplicationDTO> applications = applicationService.getAppByKeyword(keyword);
         return ResponseEntity.ok(applications);
-    } */
+    }
+
+    @GetMapping("/totalapps/{userId}")
+    public ResponseEntity<Integer> getApplicationsCount(@PathVariable Long userId) {
+        int count = applicationService.countApplicationsByUserId(userId);
+        return ResponseEntity.ok(count);
+    }
+
+    @GetMapping("/statistics/total-companies")
+    public ResponseEntity<Integer> getUniqueCompaniesCount() {
+        int count = applicationService.getUniqueCompaniesCount();
+        return ResponseEntity.ok(count);
+    }
+
+    @GetMapping("/statistics/total-applications")
+    public ResponseEntity<Integer> getTotalApplicationsCount() {
+        int count = applicationService.getTotalApplicationsCount();
+        return ResponseEntity.ok(count);
+    }
 }
