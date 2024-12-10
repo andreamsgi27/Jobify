@@ -39,10 +39,10 @@ public class User implements UserDetails {
     @Column(nullable = false, unique = true)
     private String email;
 
-    // Implementar todos los métodos de UserDetails
+    // Para implementar todos los métodos de UserDetails:
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null; //Devolvería los roles
+        return null; //Devolvería los roles, no hay de momento
     }
 
     @Override
