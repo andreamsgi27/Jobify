@@ -67,4 +67,10 @@ public class ApplicationController {
         int count = applicationService.countApplicationsByUserId(userId);
         return ResponseEntity.ok(count);
     }
+
+    @GetMapping("/statistics/total-companies")
+    public ResponseEntity<Integer> getUniqueCompaniesCount() {
+        int count = applicationService.getUniqueCompaniesCount();
+        return ResponseEntity.ok(count);
+    }
 }

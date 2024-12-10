@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.andrea.jobify.DTOs.ApplicationPhaseDTO;
-import dev.andrea.jobify.DTOs.PhaseDTO;
 import dev.andrea.jobify.services.ApplicationPhaseService;
 
 //Endpoints para consultar las fases de una candidatura específica junto con la fecha de cambio.

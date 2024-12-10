@@ -203,4 +203,19 @@ public class ApplicationService {
     public int countApplicationsByUserId(Long userId) {
         return applicationRepository.countApplicationsByUserId(userId);
     }
+
+    public int getUniqueCompaniesCount() {
+        String authenticatedUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        // Verificar si el usuario existe por su username
+        if (!userRepository.existsByUsername(authenticatedUsername)) {
+            throw new RuntimeException("Authenticated user not found");
+        }
+        // Obtener el usuario autenticado
+        User user = userRepository.findByUsername(authenticatedUsername)
+            .orElseThrow(() -> new RuntimeException("Authenticated user details not found"));
+        
+            List<String> companies = applicationRepository.findDistinctCompaniesByUserId(user.getUserId());
+        return companies.size();
+    }
 }

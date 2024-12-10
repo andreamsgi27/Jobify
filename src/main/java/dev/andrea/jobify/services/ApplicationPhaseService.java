@@ -9,7 +9,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import dev.andrea.jobify.DTOs.ApplicationPhaseDTO;
-import dev.andrea.jobify.DTOs.PhaseDTO;
 import dev.andrea.jobify.models.Application;
 import dev.andrea.jobify.models.ApplicationPhase;
 import dev.andrea.jobify.models.Phase;
