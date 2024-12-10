@@ -32,6 +32,7 @@ public class SecurityConfig {
                     .requestMatchers("/auth/register").permitAll() // Permitir acceso a la ruta de registro sin autenticación
                     .requestMatchers("/user/**").authenticated() // Requiere autenticación para /user
                     .requestMatchers("/application/**").authenticated() // Permite acceso autenticado a todas las rutas bajo /application
+                    .requestMatchers("/app/phase/**").authenticated()
                     .anyRequest().denyAll()  // Denegar todas las demás solicitudes
             )
             .httpBasic(Customizer.withDefaults()); // Activar autenticación básica (si es necesario)

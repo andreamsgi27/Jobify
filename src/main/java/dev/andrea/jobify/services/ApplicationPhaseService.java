@@ -31,7 +31,7 @@ public class ApplicationPhaseService {
     @Autowired
     private UserRepository userRepository; // Repositorio para obtener el usuario autenticado
     
-    public void changePhase(Long applicationId, ApplicationPhaseDTO appPhaseDTO, PhaseDTO phaseDTO) {
+    public void changePhase(Long applicationId, ApplicationPhaseDTO appPhaseDTO) {
         // Obtener el usuario autenticado
         String authenticatedUsername = SecurityContextHolder.getContext().getAuthentication().getName();
 
@@ -52,7 +52,11 @@ public class ApplicationPhaseService {
             throw new RuntimeException("Unauthorized: You can only modify your own applications");
         }
 
-        Long phaseId = phaseDTO.getPhaseId();
+        if (appPhaseDTO == null || appPhaseDTO.getPhase() == null) {
+            throw new IllegalArgumentException("Phase details must be provided");
+        }
+        Long phaseId = appPhaseDTO.getPhase().getPhaseId();
+        
         Phase phase = phaseRepository.findById(phaseId)
             .orElseThrow(() -> new IllegalArgumentException("Phase not found with id: " + phaseId));
 

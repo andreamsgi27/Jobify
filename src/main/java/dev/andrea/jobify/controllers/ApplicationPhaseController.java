@@ -29,8 +29,8 @@ public class ApplicationPhaseController {
 
     //Cambia la fase de la candidatura
     @PostMapping("/{applicationId}/change-phase")
-    public ResponseEntity<String> changePhase(@PathVariable Long applicationId, @RequestBody ApplicationPhaseDTO appPhaseDTO, @RequestBody PhaseDTO phaseDTO) {
-        applicationPhaseService.changePhase(applicationId, appPhaseDTO, phaseDTO); // Envia DTO al servicio
+    public ResponseEntity<String> changePhase(@PathVariable Long applicationId, @RequestBody ApplicationPhaseDTO appPhaseDTO) {
+        applicationPhaseService.changePhase(applicationId, appPhaseDTO); // Envia DTO al servicio
         return ResponseEntity.ok("Phase updated successfully");
     }
 
