@@ -24,4 +24,6 @@ public interface ApplicationRepository extends JpaRepository<Application, Long> 
 
     @Query("SELECT DISTINCT a.company FROM Application a WHERE a.user.userId = :userId")
     List<String> findDistinctCompaniesByUserId(@Param("userId") Long userId);
+
+    int countByUser_UserId(Long userId);
 }

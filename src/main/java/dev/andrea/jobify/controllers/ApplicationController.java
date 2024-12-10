@@ -73,4 +73,10 @@ public class ApplicationController {
         int count = applicationService.getUniqueCompaniesCount();
         return ResponseEntity.ok(count);
     }
+
+    @GetMapping("/statistics/total-applications")
+    public ResponseEntity<Integer> getTotalApplicationsCount() {
+        int count = applicationService.getTotalApplicationsCount();
+        return ResponseEntity.ok(count);
+    }
 }
