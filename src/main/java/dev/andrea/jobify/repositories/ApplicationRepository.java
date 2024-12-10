@@ -18,4 +18,7 @@ public interface ApplicationRepository extends JpaRepository<Application, Long> 
         "a.requirements LIKE %:keyword%) " +
         "AND a.user.userId = :userId")
     List<Application> findByKeywordAndUserId(@Param("keyword") String keyword, @Param("userId") Long userId);
+
+    @Query("SELECT COUNT(a) FROM Application a WHERE a.user.userId = :userId")
+    int countApplicationsByUserId(@Param("userId") Long userId);
 }

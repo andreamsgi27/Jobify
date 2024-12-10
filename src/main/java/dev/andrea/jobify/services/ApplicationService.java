@@ -199,4 +199,8 @@ public class ApplicationService {
 
         return applicationDTOs;
     }
+
+    public int countApplicationsByUserId(Long userId) {
+        return applicationRepository.countApplicationsByUserId(userId);
+    }
 }

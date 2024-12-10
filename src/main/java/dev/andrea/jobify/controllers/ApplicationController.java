@@ -61,4 +61,10 @@ public class ApplicationController {
         List<ApplicationDTO> applications = applicationService.getAppByKeyword(keyword);
         return ResponseEntity.ok(applications);
     }
+
+    @GetMapping("/totalapps/{userId}")
+    public ResponseEntity<Integer> getApplicationsCount(@PathVariable Long userId) {
+        int count = applicationService.countApplicationsByUserId(userId);
+        return ResponseEntity.ok(count);
+    }
 }
