@@ -49,9 +49,12 @@ public class ApplicationPhaseController {
 
     //Estadística/filtro: devuelve todas las candidaturas que se encuentran en la misma fase
     @GetMapping("/{phaseId}")
-    public List<ApplicationPhaseDTO> getApplicationsByPhase(@PathVariable Long phaseId) {
-        return applicationPhaseService.getApplicationsByPhase(phaseId);
+    public ResponseEntity<List<ApplicationPhaseDTO>> getApplicationsByPhase(@PathVariable Long phaseId) {
+        List<ApplicationPhaseDTO> applications = applicationPhaseService.getApplicationsByPhase(phaseId); // Usamos el DTO
+        return ResponseEntity.ok(applications);
     }
+
+    
     
 
 }
