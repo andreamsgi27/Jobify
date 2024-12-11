@@ -3,15 +3,31 @@ package dev.andrea.jobify.DTOs;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
-public class PhaseDTOTest {
-    
-    @Test
-    void testPhaseDTO() {
-        PhaseDTO phasedto = new PhaseDTO();
-        phasedto.setPhaseId(1L);
-        phasedto.setName("Exploring");
+class PhaseDTOTest {
 
-        assertEquals(1L, phasedto.getPhaseId());
-        assertEquals("Exploring", phasedto.getName());
+    @Test
+    void testConstructorAndGetters() {
+        // Crear un objeto PhaseDTO usando el constructor
+        Long phaseId = 1L;
+        String name = "Initial Phase";
+        PhaseDTO phaseDTO = new PhaseDTO(phaseId, name);
+
+        // Verificar que los valores están correctamente asignados
+        assertEquals(phaseId, phaseDTO.getPhaseId());
+        assertEquals(name, phaseDTO.getName());
+    }
+
+    @Test
+    void testSetters() {
+        // Crear un objeto PhaseDTO vacío
+        PhaseDTO phaseDTO = new PhaseDTO();
+
+        // Usar los setters para asignar valores
+        phaseDTO.setPhaseId(2L);
+        phaseDTO.setName("Updated Phase");
+
+        // Verificar que los valores están correctamente asignados
+        assertEquals(2L, phaseDTO.getPhaseId());
+        assertEquals("Updated Phase", phaseDTO.getName());
     }
 }

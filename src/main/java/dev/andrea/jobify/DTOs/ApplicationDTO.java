@@ -36,4 +36,12 @@ public class ApplicationDTO {
         this.link = application.getLink();
         this.notes = application.getNotes();
     }
+
+    public Long getJobTypeId() {
+        return jobTypeId;
+    }
+
+    public void setJobTypeId(Long jobTypeId) {
+        this.jobTypeId = jobTypeId;
+    }
 }
