@@ -39,13 +39,10 @@ public class AuthControllerTest {
 
     @Test
     void registerUser_ShouldReturnUserDTO() throws Exception {
-        // Mockear la creación del usuario
         when(userService.createUser(any(User.class))).thenReturn(user);
 
-        // Configurar el MockMvc
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(authController).build();
 
-        // Simular la petición al endpoint de registro
         mockMvc.perform(post("/auth/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"username\":\"john_doe\", \"password\":\"password123\", \"email\":\"john@example.com\"}"))

@@ -11,27 +11,23 @@ public class PhaseTest {
 
     @BeforeEach
     void setUp() {
-        // Inicializar el objeto Phase antes de cada test
         phase = new Phase("Applied");
     }
 
     @Test
     void testConstructorWithName() {
-        // Verificar que el constructor con el nombre funciona correctamente
         assertNotNull(phase);
         assertEquals("Applied", phase.getName(), "El nombre de la fase debería ser 'Applied'");
     }
 
     @Test
     void testSetName() {
-        // Verificar que el setter de name funciona
         phase.setName("Interview");
         assertEquals("Interview", phase.getName(), "El nombre de la fase debería ser 'Interview' después de usar el setter");
     }
 
     @Test
     void testConstructorCopy() {
-        // Crear un objeto de tipo Phase utilizando el constructor de copia
         Phase copiedPhase = new Phase(phase.getName());
 
         assertNotNull(copiedPhase);
@@ -41,7 +37,6 @@ public class PhaseTest {
 
     @Test
     void testBuilder() {
-        // Usar el patrón Builder para crear un objeto Phase
         Phase phaseUsingBuilder = Phase.builder()
                                     .name("Offer")
                                     .build();
@@ -52,7 +47,6 @@ public class PhaseTest {
 
     @Test
     void testEqualsAndHashCode() {
-        // Verificar que los métodos equals y hashCode funcionan correctamente
         Phase anotherPhase = new Phase("Applied");
 
         assertEquals(phase, anotherPhase, "Los objetos deberían ser iguales ya que tienen el mismo nombre");
@@ -61,7 +55,6 @@ public class PhaseTest {
 
     @Test
     void testToString() {
-        // Verificar que el método toString genera una representación correcta
         String expectedToString = "Phase(phaseId=null, name=Applied)";
         assertEquals(expectedToString, phase.toString(), "El método toString debería generar una cadena de texto correctamente");
     }

@@ -28,25 +28,21 @@ public class ApplicationPhaseService {
     @Autowired
     private PhaseRepository phaseRepository;
     @Autowired
-    private UserRepository userRepository; // Repositorio para obtener el usuario autenticado
+    private UserRepository userRepository;
     
     public void changePhase(Long applicationId, ApplicationPhaseDTO appPhaseDTO) {
-        // Obtener el usuario autenticado
         String authenticatedUsername = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        // Verificar si el usuario existe por su username
         if (!userRepository.existsByUsername(authenticatedUsername)) {
             throw new RuntimeException("Authenticated user not found");
         }
 
-        // Obtener el usuario autenticado
         User user = userRepository.findByUsername(authenticatedUsername)
             .orElseThrow(() -> new RuntimeException("Authenticated user details not found"));
 
         Application application = applicationRepository.findById(applicationId)
             .orElseThrow(() -> new IllegalArgumentException("Application not found with id: " + applicationId));
 
-        // Verificar que el usuario autenticado es el propietario de la aplicación
         if (!application.getUser().getUserId().equals(user.getUserId())) {
             throw new RuntimeException("Unauthorized: You can only modify your own applications");
         }
@@ -73,22 +69,18 @@ public class ApplicationPhaseService {
     }
 
     public ApplicationPhaseDTO getLastPhase(Long applicationId){
-        // Obtener el usuario autenticado
         String authenticatedUsername = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        // Verificar si el usuario existe por su username
         if (!userRepository.existsByUsername(authenticatedUsername)) {
             throw new RuntimeException("Authenticated user not found");
         }
 
-        // Obtener el usuario autenticado
         User user = userRepository.findByUsername(authenticatedUsername)
             .orElseThrow(() -> new RuntimeException("Authenticated user details not found"));
 
         Application application = applicationRepository.findById(applicationId)
         .orElseThrow(() -> new IllegalArgumentException("Application not found with id: " + applicationId));
 
-        // Verificar que el usuario autenticado es el propietario de la aplicación
         if (!application.getUser().getUserId().equals(user.getUserId())) {
             throw new RuntimeException("Unauthorized: You can only view your own applications");
         }
@@ -100,7 +92,7 @@ public class ApplicationPhaseService {
             
         ApplicationPhaseDTO lastPhase = phases.get(phases.size() - 1);
 
-        ApplicationPhaseDTO dto = new ApplicationPhaseDTO(); //Nuevo objeto DTO a devolver
+        ApplicationPhaseDTO dto = new ApplicationPhaseDTO();
         dto.setAppPhaseId(lastPhase.getAppPhaseId());
         dto.setPhase(lastPhase.getPhase());
         dto.setApplication(application);
@@ -110,32 +102,26 @@ public class ApplicationPhaseService {
     }
 
     public List<ApplicationPhaseDTO> getAllPhases(Long applicationId){
-        // Obtener el usuario autenticado
         String authenticatedUsername = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        // Verificar si el usuario existe por su username
         if (!userRepository.existsByUsername(authenticatedUsername)) {
             throw new RuntimeException("Authenticated user not found");
         }
 
-        // Obtener el usuario autenticado
         User user = userRepository.findByUsername(authenticatedUsername)
             .orElseThrow(() -> new RuntimeException("Authenticated user details not found"));
 
         Application application = applicationRepository.findById(applicationId)
         .orElseThrow(() -> new IllegalArgumentException("Application not found with id: " + applicationId));
 
-        // Verificar que el usuario autenticado es el propietario de la aplicación
         if (!application.getUser().getUserId().equals(user.getUserId())) {
             throw new RuntimeException("Unauthorized: You can only view your own applications");
         }
 
         List<ApplicationPhase> phases = applicationPhaseRepository.findByApplication_applicationId(applicationId);
 
-        // Convertir las entidades ApplicationPhase en DTOs
         List<ApplicationPhaseDTO> phaseDTOs = new ArrayList<>();
         
-        //Recorrer la lista, convirtiendo a DTO cada atributo de cada objeto de la lista
         for (ApplicationPhase phase : phases) {
             ApplicationPhaseDTO dto = new ApplicationPhaseDTO();
             dto.setAppPhaseId(phase.getAppPhaseId());
@@ -151,7 +137,6 @@ public class ApplicationPhaseService {
     public List<ApplicationPhaseDTO> getApplicationsByPhase(Long phaseId){
         List<ApplicationPhase> phases = applicationPhaseRepository.findByPhase_PhaseId(phaseId);
     
-        // Convertir ApplicationPhase en DTOs, recorriendo cada atributo de cada objeto devuelto
         List<ApplicationPhaseDTO> phaseDTOs = new ArrayList<>();
         
         for (ApplicationPhase phase : phases) {

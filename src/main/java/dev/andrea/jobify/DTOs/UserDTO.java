@@ -23,7 +23,6 @@ public class UserDTO {
     @NotNull
     private String email;
 
-    // Constructor que convierte el User en UserDTO
     public UserDTO (User user){
         this.userId = user.getUserId();
         this.username = user.getUsername();

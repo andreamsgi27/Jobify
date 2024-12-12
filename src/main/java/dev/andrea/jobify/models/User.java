@@ -39,10 +39,9 @@ public class User implements UserDetails {
     @Column(nullable = false, unique = true)
     private String email;
 
-    // Para implementar todos los métodos de UserDetails:
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null; //Devolvería los roles, no hay de momento
+        return null;
     }
 
     @Override
@@ -57,21 +56,21 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true; // Cambiar
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true; // Cambiar
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true; // Cambiar
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return true; // Cambiar
+        return true;
     }
 }

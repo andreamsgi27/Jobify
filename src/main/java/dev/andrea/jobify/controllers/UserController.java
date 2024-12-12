@@ -30,7 +30,7 @@ public class UserController {
     public ResponseEntity<List<UserDTO>> listUsers() {
         List<User> users = userService.listUsers();
         List<UserDTO> userDTOs = users.stream()
-                .map(UserDTO::new)  // Convertir cada User a UserDTO
+                .map(UserDTO::new)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(userDTOs);
     }
@@ -38,13 +38,13 @@ public class UserController {
     @GetMapping(path = "/{userId}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable Long userId) {
         User user = userService.getUserById(userId);
-        return ResponseEntity.ok(new UserDTO(user));  // Convertir User a UserDTO
+        return ResponseEntity.ok(new UserDTO(user));
     }
 
     @PutMapping("/{userId}")
     public ResponseEntity<UserDTO> updateUser(@PathVariable Long userId, @RequestBody User userDetails) {
         User updatedUser = userService.updateUser(userId, userDetails);
-        return ResponseEntity.ok(new UserDTO(updatedUser));  // Convertir User a UserDTO
+        return ResponseEntity.ok(new UserDTO(updatedUser));
     }
 
     @DeleteMapping("/{userId}")

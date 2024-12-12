@@ -57,10 +57,8 @@ public class ApplicationPhaseControllerTest {
 
     @Test
     void changePhase_ShouldReturnOk() throws Exception {
-        // Mockear la llamada al servicio
         doNothing().when(applicationPhaseService).changePhase(any(Long.class), any(ApplicationPhaseDTO.class));
 
-        // Simular la petición al endpoint
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(applicationPhaseController).build();
 
         mockMvc.perform(post("/app/phase/1/change-phase")
@@ -83,7 +81,6 @@ public class ApplicationPhaseControllerTest {
 
     @Test
     void getAllPhases_ShouldReturnAllPhases() {
-        // Crear lista de fases simuladas
         List<ApplicationPhaseDTO> phases = Arrays.asList(appPhaseDTO);
 
         when(applicationPhaseService.getAllPhases(eq(1L))).thenReturn(phases);
@@ -97,22 +94,16 @@ public class ApplicationPhaseControllerTest {
 
     @Test
     void getApplicationsByPhase_ShouldReturnApplicationsInPhase() {
-        // Crear lista de fases simuladas
         List<ApplicationPhaseDTO> phases = Arrays.asList(appPhaseDTO);
     
-        // Mockear el servicio para devolver las fases simuladas
         when(applicationPhaseService.getApplicationsByPhase(eq(1L))).thenReturn(phases);
     
-        // Simular la llamada al controlador
         ResponseEntity<List<ApplicationPhaseDTO>> response = applicationPhaseController.getApplicationsByPhase(1L);
     
-        // Verificar que el código de estado es 200 OK
         assertEquals(OK, response.getStatusCode());
     
-        // Verificar que el tamaño de la lista es 1
         assertEquals(1, response.getBody().size());
     
-        // Verificar que el nombre de la fase sea "Exploring"
         assertEquals("Exploring", response.getBody().get(0).getPhase().getName());
     }
 
