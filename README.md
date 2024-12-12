@@ -36,6 +36,16 @@ Esta aplicación está diseñada para ayudar a los usuarios a mantener un contro
 
 <br>
 
+## Instalaciones
+
+*Para probar este proyecto, necesitarás:*
+- JDK 21
+- Apache Maven
+- MySQL Workbench (Una conexión usando username = root, password = 1234)
+- Un IDE (Como IntelliJ IDEA o VSCode con extensiones de Java)
+- Git (Para clonar el repositorio)
+- Postman (Opcional, para probar endpoints)
+
 ## Diagrama UML
 ![image](https://github.com/user-attachments/assets/7b39bdea-a4a0-49e2-b435-f58a24f93199)
 
