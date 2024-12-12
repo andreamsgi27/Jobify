@@ -20,14 +20,12 @@ public class DataInitializer {
 
     @PostConstruct
     public void init() {
-        // Insertar JobTypes solo si no existen
         if (jobTypeRepository.count() == 0) {
             jobTypeRepository.save(new JobType("Remote"));
             jobTypeRepository.save(new JobType("Hybrid"));
             jobTypeRepository.save(new JobType("On-Site"));
         }
 
-        // Insertar Phases solo si no existen
         if (phaseRepository.count() == 0) {
             phaseRepository.save(new Phase("Exploring"));
             phaseRepository.save(new Phase("Submitted"));

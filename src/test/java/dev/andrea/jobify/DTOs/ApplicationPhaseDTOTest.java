@@ -13,7 +13,6 @@ class ApplicationPhaseDTOTest {
 
     @Test
     void constructorShouldMapFieldsCorrectly() {
-        // Arrange: Crear objetos Phase y Application
         Phase phase = new Phase();
         phase.setPhaseId(1L);
         phase.setName("Interview");
@@ -22,7 +21,6 @@ class ApplicationPhaseDTOTest {
         application.setApplicationId(1L);
         application.setPosition("Software Developer");
 
-        // Crear un objeto ApplicationPhase con datos simulados
         ApplicationPhase applicationPhase = new ApplicationPhase();
         applicationPhase.setAppPhaseId(1L);
         applicationPhase.setPhase(phase);

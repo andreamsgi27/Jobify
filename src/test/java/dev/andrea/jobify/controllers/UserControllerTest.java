@@ -39,7 +39,7 @@ public class UserControllerTest {
     @BeforeEach
     void setUp() {
         user = new User(1L, "John Doe", "password123", "johndoe@example.com");
-        userDTO = new UserDTO(user); // Crear UserDTO basado en User
+        userDTO = new UserDTO(user);
     }
 
     @Test

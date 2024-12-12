@@ -26,16 +26,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable())  // Deshabilitar CSRF (si es necesario)
+            .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth ->
                 auth
-                    .requestMatchers("/auth/register").permitAll() // Permitir acceso a la ruta de registro sin autenticación
-                    .requestMatchers("/user/**").authenticated() // Requiere autenticación para /user
-                    .requestMatchers("/application/**").authenticated() // Permite acceso autenticado a todas las rutas bajo /application
+                    .requestMatchers("/auth/register").permitAll()
+                    .requestMatchers("/user/**").authenticated()
+                    .requestMatchers("/application/**").authenticated()
                     .requestMatchers("/app/phase/**").authenticated()
-                    .anyRequest().denyAll()  // Denegar todas las demás solicitudes
+                    .anyRequest().denyAll()
             )
-            .httpBasic(Customizer.withDefaults()); // Activar autenticación básica (si es necesario)
+            .httpBasic(Customizer.withDefaults());
         
         return http.build();
     }

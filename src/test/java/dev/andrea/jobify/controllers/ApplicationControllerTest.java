@@ -40,7 +40,6 @@ public class ApplicationControllerTest {
 
     @BeforeEach
     void setUp() {
-        // Crear objetos relacionados
         User user = new User(1L, "John Doe", "password123", "johndoe@example.com");
         JobType jobType = new JobType(1L, "Full-Time");
         Application application = new Application(
@@ -56,7 +55,6 @@ public class ApplicationControllerTest {
                 "Exciting opportunity"
         );
 
-        // Inicializar ApplicationDTO usando Application
         applicationDTO = new ApplicationDTO(application);
     }
 
@@ -72,7 +70,6 @@ public class ApplicationControllerTest {
 
     @Test
     void updateApp_shouldReturnUpdatedApplication() {
-        // Crear los datos actualizados simulados
         User user = new User(1L, "John Doe", "password123", "johndoe@example.com");
         JobType jobType = new JobType(1L, "Full-Time");
         Application updatedApplication = new Application(
@@ -89,13 +86,10 @@ public class ApplicationControllerTest {
         );
         ApplicationDTO updatedApplicationDTO = new ApplicationDTO(updatedApplication);
 
-        // Mock del servicio para devolver los datos actualizados
         when(applicationService.updateApp(eq(applicationDTO), eq(1L))).thenReturn(updatedApplicationDTO);
 
-        // Llamada al controlador
         ResponseEntity<ApplicationDTO> response = applicationController.updateApp(1L, applicationDTO);
 
-        // Verificaciones
         assertEquals(OK, response.getStatusCode());
         assertEquals(updatedApplicationDTO, response.getBody());
     }
@@ -112,7 +106,6 @@ public class ApplicationControllerTest {
 
     @Test
     void listAppsByUser_shouldReturnListOfApplications() {
-        // Crear datos simulados
         User user = new User(1L, "John Doe", "password123", "johndoe@example.com");
         JobType jobType = new JobType(1L, "Full-Time");
 
@@ -146,13 +139,10 @@ public class ApplicationControllerTest {
                 new ApplicationDTO(application2)
         );
 
-        // Mock del servicio para devolver la lista de aplicaciones
         when(applicationService.listAppsByUser()).thenReturn(applications);
 
-        // Llamada al controlador
         ResponseEntity<List<ApplicationDTO>> response = applicationController.listAppsByUser();
 
-        // Verificaciones
         assertEquals(OK, response.getStatusCode());
         assertEquals(2, response.getBody().size());
         assertEquals("Software Developer", response.getBody().get(0).getPosition());
@@ -173,7 +163,6 @@ public class ApplicationControllerTest {
 
     @Test
     void getAppByKeyword_shouldReturnListOfApplications() {
-        // Crear datos simulados
         User user = new User(1L, "John Doe", "password123", "johndoe@example.com");
         JobType jobType = new JobType(1L, "Full-Time");
 
@@ -207,52 +196,40 @@ public class ApplicationControllerTest {
                 new ApplicationDTO(application2)
         );
 
-        // Mock del servicio para devolver la lista de aplicaciones filtradas por palabra clave
         when(applicationService.getAppByKeyword("Software")).thenReturn(applications);
 
-        // Llamada al controlador
         ResponseEntity<List<ApplicationDTO>> response = applicationController.getAppByKeyword("Software");
 
-        // Verificaciones
         assertEquals(OK, response.getStatusCode());
         assertEquals(2, response.getBody().size());
     }
 
     @Test
     void getApplicationsCount_shouldReturnApplicationsCount() {
-        // Mock del servicio para devolver el número de aplicaciones
         when(applicationService.countApplicationsByUserId(1L)).thenReturn(3);
 
-        // Llamada al controlador
         ResponseEntity<Integer> response = applicationController.getApplicationsCount(1L);
 
-        // Verificaciones
         assertEquals(OK, response.getStatusCode());
         assertEquals(3, response.getBody());
     }
 
     @Test
     void getUniqueCompaniesCount_shouldReturnUniqueCompaniesCount() {
-        // Mock del servicio para devolver el número de empresas únicas
         when(applicationService.getUniqueCompaniesCount()).thenReturn(2);
 
-        // Llamada al controlador
         ResponseEntity<Integer> response = applicationController.getUniqueCompaniesCount();
 
-        // Verificaciones
         assertEquals(OK, response.getStatusCode());
         assertEquals(2, response.getBody());
     }
 
     @Test
     void getTotalApplicationsCount_shouldReturnTotalApplicationsCount() {
-        // Mock del servicio para devolver el número total de aplicaciones
         when(applicationService.getTotalApplicationsCount()).thenReturn(5);
 
-        // Llamada al controlador
         ResponseEntity<Integer> response = applicationController.getTotalApplicationsCount();
 
-        // Verificaciones
         assertEquals(OK, response.getStatusCode());
         assertEquals(5, response.getBody());
     }

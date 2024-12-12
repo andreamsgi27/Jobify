@@ -19,15 +19,12 @@ public class JobTypeDTOTest {
 
     @Test
     void constructorShouldMapFieldsCorrectly() {
-        // Arrange: Crear un objeto JobType con datos simulados
         JobType jobType = new JobType();
         jobType.setJobTypeId(1L);
         jobType.setName("Full-Time");
 
-        // Act: Usar el constructor para crear un JobTypeDTO
         JobTypeDTO jobTypeDTO = new JobTypeDTO(jobType);
 
-        // Assert: Verificar que los campos fueron mapeados correctamente
         assertEquals(1L, jobTypeDTO.getJobTypeId());
         assertEquals("Full-Time", jobTypeDTO.getName());
     }
